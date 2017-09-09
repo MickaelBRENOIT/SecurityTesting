@@ -2,13 +2,19 @@
 
 //db connection class using singleton pattern
 class Database{
-
+	
 	private static $_instance;
     private $_pdo;
 
     private function __construct()
     {
-        $this->_pdo = new PDO('mysql:host=localhost;dbname=mini_projet', 'root', '');//<-- connect here
+
+		$host = "artgalermoeibltd.mysql.db";  // serveur de bdd
+		$user = "artgalermoeibltd";   // nom de l'utilisateur
+		$pass = "8G46dyu7ti";   // mot de passe utilisateur
+		$bddn = "artgalermoeibltd";   // nom de la bdd
+					
+        $this->_pdo = new PDO("mysql:host=$host;dbname=$bddn", $user, $pass);//<-- connect here
         $this->_pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     }
 
@@ -40,7 +46,6 @@ class Database{
     {
         return false;
     }
-
 } //end class
 
 ?>
