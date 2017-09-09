@@ -117,6 +117,30 @@
 					return false;
 				}
             });
+			
+			/* Handle the event when writting the password */
+			$('#passwordWithSecurity').keyup(function(){
+				var inputVal = $(this).val();
+				//var div = $('#divWithSecurity')[0];
+				//var regex = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;
+				var regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]{8,}$/;
+				if(!regex.test(inputVal)) {
+					console.log("Not good enough ...");
+					if(!$('#divWithSecurity').hasClass('form-group has-error')){
+						$('#divWithSecurity').removeClass();
+						$('#divWithSecurity').addClass("form-group has-error");
+					}
+					if(!$('#submitWithSecurity').hasClass('disabled')){
+						$('#submitWithSecurity').addClass("disabled");
+					}
+				}else{
+					console.log("Good !!!");
+					//div.removeClass().addClass("form-group has-success");
+					$('#divWithSecurity').removeClass();
+					$('#divWithSecurity').addClass("form-group has-success");
+					$('#submitWithSecurity').removeClass("disabled");
+				}
+			});
         });
         </script>
 
