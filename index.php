@@ -91,7 +91,34 @@
         $(document).ready(function(){
 			
 			/* Handle the event when the form with security is submitted */
-            $("#submitWithSecurity").click(function(){
+            $("#submitWithoutSecurity").click(function(){
+				if(!$('#submitWithSecurity').hasClass('disabled')){
+					var login = $("#loginWithoutSecurity").val();
+					var pass = $("#passwordWithoutSecurity").val();
+					var dataString = 'login='+ login + '&pass='+ pass;
+					if(login == '' || pass == '')
+					{
+						$("#displayWithoutSecurity").html("<h3 style=\"text-align:center;\">Please fill all fields</h3>");
+					}
+					else
+					{
+						$.ajax({
+							type: "POST",
+							url: "processorWithoutSecurity.php",
+							data: dataString,
+							cache: false,
+							success: function(result){
+								$("#displayWithoutSecurity").html(result);
+							}
+						});
+					}
+					return false;
+				} else {
+					return false;
+				}
+            });
+			
+			$("#submitWithSecurity").click(function(){
 				if(!$('#submitWithSecurity').hasClass('disabled')){
 					var login = $("#loginWithSecurity").val();
 					var pass = $("#passwordWithSecurity").val();
@@ -104,7 +131,7 @@
 					{
 						$.ajax({
 							type: "POST",
-							url: "processor.php",
+							url: "processorWithSecurity.php",
 							data: dataString,
 							cache: false,
 							success: function(result){
