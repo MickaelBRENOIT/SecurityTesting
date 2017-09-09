@@ -87,6 +87,39 @@
         <!-- JQuery JS -->
         <script src="js/jquery.js"></script>
 
+        <script>
+        $(document).ready(function(){
+			
+			/* Handle the event when the form with security is submitted */
+            $("#submitWithSecurity").click(function(){
+				if(!$('#submitWithSecurity').hasClass('disabled')){
+					var login = $("#loginWithSecurity").val();
+					var pass = $("#passwordWithSecurity").val();
+					var dataString = 'login='+ login + '&pass='+ pass;
+					if(login == '' || pass == '')
+					{
+						$("#displayWithSecurity").html("<h3 style=\"text-align:center;\">Please fill all fields</h3>");
+					}
+					else
+					{
+						$.ajax({
+							type: "POST",
+							url: "processor.php",
+							data: dataString,
+							cache: false,
+							success: function(result){
+								$("#displayWithSecurity").html(result);
+							}
+						});
+					}
+					return false;
+				} else {
+					return false;
+				}
+            });
+        });
+        </script>
+
     </body>
 
 </html>
