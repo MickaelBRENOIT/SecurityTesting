@@ -32,6 +32,9 @@
 
     <body>
 
+        <!-- JQuery JS -->
+        <script src="js/jquery.js"></script>
+
     </body>
 
 </html>
