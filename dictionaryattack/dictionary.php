@@ -1,5 +1,6 @@
 <?php
 	include_once('../singleton/database.php');
+	$start = microtime(true);
 	$name= $_POST['login'];
 	$lines = file("wordlist263533.txt");
 	$con = Database::getConnection();
@@ -42,6 +43,9 @@
 			
 			echo "    </tbody>\n";
 			echo "  </table>";
+
+			$executionTime = microtime(true) - $start;
+			echo "<h3 style=\"text-align:center;\">Execution Time : ".$executionTime." seconds</h3>";
 			break;
 		}
 	}
