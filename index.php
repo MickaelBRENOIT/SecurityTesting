@@ -47,8 +47,10 @@
                             <label for="labelPassword">Password</label>
                             <input type="password" class="form-control" id="passwordWithoutSecurity" placeholder="Password">
                           </div>
-                          <button type="submit" id="submitWithoutSecurity" class="btn btn-danger">Submit Without Security</button>
+                          <button type="submit" id="submitWithoutSecurity" class="btn btn-block btn-danger">Submit Without Security</button>
                     </form>
+
+                    <button type="button" id="submitDictionaryAttack" class="btn btn-block btn-warning">Dictionary Attack</button>
 
                 </div>
                 
@@ -65,10 +67,14 @@
                             <label for="labelPassword" >Password - 8 chars & 1 digit & 1 uppercase & 1 lowercase min</label>
                             <input type="password" class="form-control" id="passwordWithSecurity" placeholder="Password">
                           </div>
-                          <button type="submit" id="submitWithSecurity" class="btn btn-success disabled">Submit With Security</button>
+                          <button type="submit" id="submitWithSecurity" class="btn btn-block btn-success disabled">Submit With Security</button>
                     </form>
 
                 </div>
+
+            </div>
+
+            <div class="row">
 
                 <div class="col-md-6">
                     
@@ -81,7 +87,9 @@
                     <div id="displayWithSecurity"></div>
 
                 </div>
+
             </div>
+            
         </div>
 
         <!-- JQuery JS -->
@@ -167,6 +175,29 @@
 					$('#divWithSecurity').addClass("form-group has-success");
 					$('#submitWithSecurity').removeClass("disabled");
 				}
+			});
+
+			/* Handle the dictionary attack */
+			$('#submitDictionaryAttack').click(function(){
+				var login = $("#loginWithoutSecurity").val();
+				var dataString = 'login='+ login;
+				if(login == '')
+				{
+					$("#displayWithoutSecurity").html("<h3 style=\"text-align:center;\">Need a login at least</h3>");
+				}
+				else
+				{
+					$.ajax({
+						type: "POST",
+						url: "dictionaryattack/dictionary.php",
+						data: dataString,
+						cache: false,
+						success: function(result){
+							$("#displayWithoutSecurity").html(result);
+						}
+					});
+				}
+				return false;
 			});
         });
         </script>

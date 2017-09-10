@@ -2,26 +2,6 @@
 	include_once('singleton/database.php');
 	ini_set('display_errors', 1);
 	
-	
-	$servername = "artgalermoeibltd.mysql.db";  // serveur de bdd
-	$username = "artgalermoeibltd";   // nom de l'utilisateur
-	$password = "8G46dyu7ti";   // mot de passe utilisateur
-	$dbname = "artgalermoeibltd";   // nom de la bdd
-	
-	/*
-	$servername = "localhost";
-	$username = "root";
-	$password = NULL;
-//	$dbname = "uha_securite";
-	$dbname = "mini_projet";*//*
-	$conn = new mysqli($servername, $username, $password, $dbname);	
-	if ($conn->connect_error) {
-		die("Connection failed: " . $conn->connect_error);
-	} 
-	echo $conn->error;
-	
-	// Create connection
-	*/
 	$name= $_POST['login'];
 	$pass= $_POST['pass'];
 	$hash=md5($pass);
