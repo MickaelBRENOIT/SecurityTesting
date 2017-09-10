@@ -38,7 +38,7 @@
 
                     <h2 style="text-align:center;">Sans Sécurité</h2>
 
-                    <form>
+                    <form id="formWithoutSecurity">
                           <div class="form-group">
                             <label for="labelLogin">Login</label>
                             <input type="text" class="form-control" id="loginWithoutSecurity" placeholder="Login">
@@ -58,7 +58,7 @@
                     
                     <h2 style="text-align:center;">Avec Sécurité</h2>
 
-                    <form>
+                    <form id="formWithSecurity">
                           <div class="form-group">
                             <label for="labelLogin">Login</label>
                             <input type="text" class="form-control" id="loginWithSecurity" placeholder="Login">
@@ -85,6 +85,17 @@
                 <div class="col-md-6">
                     
                     <div id="displayWithSecurity"></div>
+
+                </div>
+
+            </div>
+
+            <div class="row">
+
+                <div class="col-md-12">
+
+                    <br/><br/><br/>
+                    <button type="button" id="clear" class="btn btn-block btn-info">Clear everything</button>
 
                 </div>
 
@@ -199,6 +210,15 @@
 				}
 				return false;
 			});
+
+			/* clear everything */
+			$('#clear').click(function(){
+				$("#displayWithSecurity").html("");
+				$("#displayWithoutSecurity").html("");
+				$("#formWithSecurity")[0].reset();
+				$("#formWithoutSecurity")[0].reset();
+			});
+
         });
         </script>
 
