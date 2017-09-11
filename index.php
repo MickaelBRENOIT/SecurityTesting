@@ -106,35 +106,34 @@
         <!-- JQuery JS -->
         <script src="js/jquery.js"></script>
 
+        <!-- JQuery cookie JS -->
+        <script src="js/jquery.cookie.js"></script>
+
         <script>
         $(document).ready(function(){
 			
 			/* Handle the event when the form with security is submitted */
             $("#submitWithoutSecurity").click(function(){
-				if(!$('#submitWithSecurity').hasClass('disabled')){
-					var login = $("#loginWithoutSecurity").val();
-					var pass = $("#passwordWithoutSecurity").val();
-					var dataString = 'login='+ login + '&pass='+ pass;
-					if(login == '' || pass == '')
-					{
-						$("#displayWithoutSecurity").html("<h3 style=\"text-align:center;\">Please fill all fields</h3>");
-					}
-					else
-					{
-						$.ajax({
-							type: "POST",
-							url: "processorWithoutSecurity.php",
-							data: dataString,
-							cache: false,
-							success: function(result){
-								$("#displayWithoutSecurity").html(result);
-							}
-						});
-					}
-					return false;
-				} else {
-					return false;
+				var login = $("#loginWithoutSecurity").val();
+				var pass = $("#passwordWithoutSecurity").val();
+				var dataString = 'login='+ login + '&pass='+ pass;
+				if(login == '' || pass == '')
+				{
+					$("#displayWithoutSecurity").html("<h3 style=\"text-align:center;\">Please fill all fields</h3>");
 				}
+				else
+				{
+					$.ajax({
+						type: "POST",
+						url: "processorWithoutSecurity.php",
+						data: dataString,
+						cache: false,
+						success: function(result){
+							$("#displayWithoutSecurity").html(result);
+						}
+					});
+				}
+				return false;
             });
 			
 			$("#submitWithSecurity").click(function(){
@@ -213,6 +212,11 @@
 
 			/* clear everything */
 			$('#clear').click(function(){
+
+				if (!!$.cookie('user')) {
+					$.removeCookie('user', { path: '/' });
+				}
+
 				$("#displayWithSecurity").html("");
 				$("#displayWithoutSecurity").html("");
 				$("#formWithSecurity")[0].reset();

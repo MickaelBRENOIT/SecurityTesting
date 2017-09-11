@@ -11,11 +11,15 @@
 	
 	$result = $con->queryDB($query);
 	$total = $result->rowCount();
-	echo $query;
 	
 	if($total<1){
 		echo "<h3 style=\"text-align:center;\">Login/Password incorrect</h3>";
 	}else{
+
+		$cookie_name = "user";
+		$cookie_value = $name;
+		setcookie($cookie_name, $cookie_value, time() + (86400 * 30), "/");
+
 		echo "<br/>";
 		echo "<h2 style=\"text-align:center;\">Results</h2>";
 		echo "<table class=\"table table-striped\">\n";
@@ -40,5 +44,13 @@
 		
 		echo "    </tbody>\n";
 		echo "  </table>";
+
+		if(!isset($_COOKIE[$cookie_name])) {
+		    echo "Cookie named '" . $cookie_name . "' is not set!";
+		} else {
+		    echo "Cookie '" . $cookie_name . "' is set!<br>";
+		    echo "Value is: " . $_COOKIE[$cookie_name];
+		}
+
 	}
 ?>
