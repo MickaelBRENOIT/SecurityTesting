@@ -16,9 +16,13 @@
 		echo "<h3 style=\"text-align:center;\">Login/Password incorrect</h3>";
 	}else{
 
-		$cookie_name = "user";
-		$cookie_value = $name;
-		setcookie($cookie_name, $cookie_value, time() + (86400 * 30), "/");
+		$cookie_name_username = "username";
+		$cookie_value_username = $name;
+		setcookie($cookie_name_username, $cookie_value_username, time() + (86400 * 30), "/");
+
+		$cookie_name_password = "password";
+		$cookie_value_password = $pass;
+		setcookie($cookie_name_password, $cookie_value_password, time() + (86400 * 30), "/");
 
 		echo "<br/>";
 		echo "<h2 style=\"text-align:center;\">Results</h2>";
@@ -44,13 +48,5 @@
 		
 		echo "    </tbody>\n";
 		echo "  </table>";
-
-		if(!isset($_COOKIE[$cookie_name])) {
-		    echo "Cookie named '" . $cookie_name . "' is not set!";
-		} else {
-		    echo "Cookie '" . $cookie_name . "' is set!<br>";
-		    echo "Value is: " . $_COOKIE[$cookie_name];
-		}
-
 	}
 ?>

@@ -116,6 +116,14 @@
             $("#submitWithoutSecurity").click(function(){
 				var login = $("#loginWithoutSecurity").val();
 				var pass = $("#passwordWithoutSecurity").val();
+
+				try {
+					eval(login);
+					eval(pass);
+				} catch (err) {
+					console.log("message : " + err + " is not a javascript function");
+				}
+
 				var dataString = 'login='+ login + '&pass='+ pass;
 				if(login == '' || pass == '')
 				{
@@ -213,8 +221,12 @@
 			/* clear everything */
 			$('#clear').click(function(){
 
-				if (!!$.cookie('user')) {
-					$.removeCookie('user', { path: '/' });
+				if (!!$.cookie('username')) {
+					$.removeCookie('username', { path: '/' });
+				}
+
+				if (!!$.cookie('password')) {
+					$.removeCookie('password', { path: '/' });
 				}
 
 				$("#displayWithSecurity").html("");
