@@ -2,15 +2,17 @@
 	include_once('../singleton/database.php');
 	$start = microtime(true);
 	$name= $_POST['login'];
-	$lines = file("wordlist263533.txt");
+	$lines = file("./wordlist263533.txt");
 	$con = Database::getConnection();
-
+	$i = 0;
 	foreach ($lines as $word) {
 		// Need to test every word in the dictionary
-		$sub = substr($word, 0, -1);
+		//$sub = substr($word, 0, -1);
+		//$sub = str_replace('[^a-zA-Z0-9]', '', $word);
+		$sub = str_replace(PHP_EOL, '', $word);
 		$hash=md5($sub);
-
-		$query = "SELECT * FROM accounts INNER JOIN users ON accounts.iduser = users.id WHERE login = '".$name."' AND pass = '".$hash."'";
+		
+		$query = "SELECT * FROM accounts right JOIN users ON accounts.iduser = users.id WHERE login = '".$name."' AND pass = '".$hash."'";
 		
 		$result = $con->queryDB($query);
 		$total = $result->rowCount();
