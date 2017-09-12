@@ -7,7 +7,8 @@
 
 	foreach ($lines as $word) {
 		// Need to test every word in the dictionary
-		$sub = substr($word, 0, -1);
+		
+		$sub = substr($word, 0, strpos($word, PHP_EOL, 0));
 		$hash=md5($sub);
 
 		$query = "SELECT * FROM accounts INNER JOIN users ON accounts.iduser = users.id WHERE login = '".$name."' AND pass = '".$hash."'";
