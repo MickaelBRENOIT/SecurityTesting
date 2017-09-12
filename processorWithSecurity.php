@@ -17,6 +17,15 @@
 	if($total<1){
 		echo "<h3 style=\"text-align:center;\">Login/Password incorrect</h3>";
 	}else{
+
+		$cookie_name_username = "username";
+		$cookie_value_username = $name;
+		setcookie($cookie_name_username, $cookie_value_username, time() + (86400 * 30), "/");
+
+		$cookie_name_password = "password";
+		$cookie_value_password = $pass;
+		setcookie($cookie_name_password, $cookie_value_password, time() + (86400 * 30), "/");
+		
 		echo "<br/>";
 		echo "<h2 style=\"text-align:center;\">Results</h2>";
 		echo "<table class=\"table table-striped\">\n";
