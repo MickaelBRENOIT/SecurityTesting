@@ -119,9 +119,14 @@
 
 				try {
 					eval(login);
+				} catch (err) {
+					console.log("message : " + err + " and is not a javascript function");
+				}
+
+				try {
 					eval(pass);
 				} catch (err) {
-					console.log("message : " + err + " is not a javascript function");
+					console.log("message : " + err + " and is not a javascript function");
 				}
 
 				var dataString = 'login='+ login + '&pass='+ pass;
