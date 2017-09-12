@@ -9,7 +9,7 @@
 		// Need to test every word in the dictionary
 		//$sub = substr($word, 0, -1);
 		//$sub = str_replace('[^a-zA-Z0-9]', '', $word);
-		$sub = str_replace(PHP_EOL, '', $word);
+		$sub = str_replace(array("\n\r", "\n", "\r"), '', $word);
 		$hash=md5($sub);
 		
 		$query = "SELECT * FROM accounts right JOIN users ON accounts.iduser = users.id WHERE login = '".$name."' AND pass = '".$hash."'";
