@@ -74,6 +74,13 @@
 
             </div>
 
+            <hr style="border: 0; 
+					  height: 5px; 
+					  background-image: -webkit-linear-gradient(left, #f0f0f0, #8c8b8b, #f0f0f0);
+					  background-image: -moz-linear-gradient(left, #f0f0f0, #8c8b8b, #f0f0f0);
+					  background-image: -ms-linear-gradient(left, #f0f0f0, #8c8b8b, #f0f0f0);
+					  background-image: -o-linear-gradient(left, #f0f0f0, #8c8b8b, #f0f0f0);">
+
             <div class="row">
 
                 <div class="col-md-6">
@@ -89,6 +96,13 @@
                 </div>
 
             </div>
+
+            <hr style="border: 0; 
+					  height: 5px; 
+					  background-image: -webkit-linear-gradient(left, #f0f0f0, #8c8b8b, #f0f0f0);
+					  background-image: -moz-linear-gradient(left, #f0f0f0, #8c8b8b, #f0f0f0);
+					  background-image: -ms-linear-gradient(left, #f0f0f0, #8c8b8b, #f0f0f0);
+					  background-image: -o-linear-gradient(left, #f0f0f0, #8c8b8b, #f0f0f0);">
 
             <div class="row">
 
@@ -132,7 +146,7 @@
 				var dataString = 'login='+ login + '&pass='+ pass;
 				if(login == '' || pass == '')
 				{
-					$("#displayWithoutSecurity").html("<h3 style=\"text-align:center;\">Please fill all fields</h3>");
+					$("#displayWithoutSecurity").html("<h4 class=\"bg-warning\" style=\"text-align:center; padding: 30px 0 30px 0;\">Please fill all fields</h4>");
 				}
 				else
 				{
@@ -156,7 +170,7 @@
 					var dataString = 'login='+ login + '&pass='+ pass;
 					if(login == '' || pass == '')
 					{
-						$("#displayWithSecurity").html("<h3 style=\"text-align:center;\">Please fill all fields</h3>");
+						$("#displayWithSecurity").html("<h4 class=\"bg-warning\" style=\"text-align:center; padding: 30px 0 30px 0;\">Please fill all fields</h4>");
 					}
 					else
 					{
