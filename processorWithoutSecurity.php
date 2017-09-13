@@ -4,12 +4,24 @@
 	
 	$name= $_POST['login'];
 	$pass= $_POST['pass'];
-	$hash=md5($pass);
+	$prevent_injection_sql= $_POST['sql'];
+
 	$con = Database::getConnection();
 	
-	$query = "SELECT * FROM accounts INNER JOIN users ON accounts.iduser = users.id WHERE login = '".$name."' AND pass = '".$hash."'";
-	
-	$result = $con->queryDB($query);
+	if($prevent_injection_sql == "yes"){
+		$nameclean = filter_var($name, FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH);
+		$passclean = filter_var($pass, FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH);
+		$hash=md5($passclean);
+		$result = $con->prepareDB("SELECT * FROM accounts INNER JOIN users ON accounts.iduser = users.id WHERE login = ? AND pass = ?") ;
+		$result->bindParam(1, $nameclean);
+		$result->bindParam(2, $hash);
+		$result->execute();
+	} else {
+		$hash=md5($pass);
+		$query = "SELECT * FROM accounts INNER JOIN users ON accounts.iduser = users.id WHERE login = '".$name."' AND pass = '".$hash."'";
+		$result = $con->queryDB($query);
+	}
+
 	$total = $result->rowCount();
 	
 	if($total<1){

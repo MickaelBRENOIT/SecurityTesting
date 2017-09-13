@@ -65,13 +65,13 @@
 	                    	<h3 style="text-align:center;">Select your defence(s)</h3>
 
 							<div class="checkbox">
-						  		<label><input type="checkbox" value="">Prevent Cross-site scripting</label>
+						  		<label><input type="checkbox" id="cb-xss" value="">Prevent Cross-site scripting</label>
 							</div>
 							<div class="checkbox">
-						  		<label><input type="checkbox" value="">Prevent Injections SQL</label>
+						  		<label><input type="checkbox" id="cb-sql" value="">Prevent Injections SQL</label>
 							</div>
 							<div class="checkbox">
-						  		<label><input type="checkbox" value="">Prevent Dictionary and/or Brute Force attacks</label>
+						  		<label><input type="checkbox" id="cb-dic" value="">Prevent Dictionary and/or Brute Force attacks</label>
 							</div>
 	                    </div>
 	                    
@@ -163,6 +163,7 @@
 		    });
 			
 			/* Handle the event when the form with security is submitted */
+			/* Example SQL injection ==> mickael' or 1=1 -- ' */
             $("#submitWithoutSecurity").click(function(){
 
             	if($("#rb-dictionary").is(":checked")){
@@ -188,8 +189,13 @@
             	} else {
             		var login = $("#loginWithoutSecurity").val();
 					var pass = $("#passwordWithoutSecurity").val();
+					var prevent_sql = "no";
 
-					if($("#rb-xss").is(":checked")){
+					if($("#cb-sql").is(':checked')){
+						prevent_sql = "yes";
+					}
+
+					if($("#rb-xss").is(":checked") && !$("#cb-xss").is('checked')){
 						try {
 							eval(login);
 						} catch (err) {
@@ -203,7 +209,7 @@
 						}
 					}
 					
-					var dataString = 'login='+ login + '&pass='+ pass;
+					var dataString = 'login='+ login + '&pass='+ pass + '&sql='+ prevent_sql;
 					if(login == '' || pass == '')
 					{
 						$("#displayWithoutSecurity").html("<h4 class=\"bg-warning\" style=\"text-align:center; padding: 30px 0 30px 0;\">Please fill all fields</h4>");
