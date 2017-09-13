@@ -39,18 +39,47 @@
                     <h2 style="text-align:center;">Sans Sécurité</h2>
 
                     <form id="formWithoutSecurity">
-                          <div class="form-group">
-                            <label for="labelLogin">Login</label>
-                            <input type="text" class="form-control" id="loginWithoutSecurity" placeholder="Login">
-                          </div>
-                          <div class="form-group" id="divWithoutSecurity">
-                            <label for="labelPassword">Password</label>
-                            <input type="password" class="form-control" id="passwordWithoutSecurity" placeholder="Password">
-                          </div>
+	                    <div class="form-group">
+	                      <label for="labelLogin">Login</label>
+	                      <input type="text" class="form-control" id="loginWithoutSecurity" placeholder="Login">
+	                    </div>
+	                    <div class="form-group" id="divWithoutSecurity">
+	                      <label for="labelPassword">Password</label>
+	                      <input type="password" class="form-control" id="passwordWithoutSecurity" placeholder="Password">
+	                    </div>
+
+	                    <div id="radio-group" style="border: 4px solid red; padding: 0 10px 0 10px; margin: 10px 0 10px 0;">
+	                    	<h3 style="text-align:center;">Select your attack</h3>
+	                    	<div class="radio">
+							    <label><input type="radio" name="optradio">Dictionary Attack</label>
+							</div>
+							<div class="radio">
+							    <label><input type="radio" name="optradio">Cross-site scripting</label>
+							</div>
+							<div class="radio">
+							    <label><input type="radio" name="optradio">None</label>
+							</div>
+	                    </div>
+
+	                    <div id="checkbox-group" style="border: 4px solid green; padding: 0 10px 0 10px; margin: 10px 0 10px 0;">
+	                    	<h3 style="text-align:center;">Select your defence(s)</h3>
+
+							<div class="checkbox">
+						  		<label><input type="checkbox" value="">Prevent Cross-site scripting</label>
+							</div>
+							<div class="checkbox">
+						  		<label><input type="checkbox" value="">Prevent Injections SQL</label>
+							</div>
+							<div class="checkbox">
+						  		<label><input type="checkbox" value="">Prevent Dictionary and/or Brute Force attacks</label>
+							</div>
+	                    </div>
+	                    
+						
                           <button type="submit" id="submitWithoutSecurity" class="btn btn-block btn-danger">Submit Without Security</button>
                     </form>
 
-                    <button type="button" id="submitDictionaryAttack" class="btn btn-block btn-warning">Dictionary Attack</button>
+                    <!--<button type="button" id="submitDictionaryAttack" class="btn btn-block btn-warning">Dictionary Attack</button>-->
 
                 </div>
                 
@@ -76,10 +105,10 @@
 
             <hr style="border: 0; 
 					  height: 5px; 
-					  background-image: -webkit-linear-gradient(left, #f0f0f0, #8c8b8b, #f0f0f0);
-					  background-image: -moz-linear-gradient(left, #f0f0f0, #8c8b8b, #f0f0f0);
-					  background-image: -ms-linear-gradient(left, #f0f0f0, #8c8b8b, #f0f0f0);
-					  background-image: -o-linear-gradient(left, #f0f0f0, #8c8b8b, #f0f0f0);">
+					  background-image: -webkit-linear-gradient(left, #ffffff, #8c8b8b, #ffffff);
+					  background-image: -moz-linear-gradient(left, #ffffff, #8c8b8b, #ffffff);
+					  background-image: -ms-linear-gradient(left, #ffffff, #8c8b8b, #ffffff);
+					  background-image: -o-linear-gradient(left, #ffffff, #8c8b8b, #ffffff);">
 
             <div class="row">
 
@@ -99,10 +128,10 @@
 
             <hr style="border: 0; 
 					  height: 5px; 
-					  background-image: -webkit-linear-gradient(left, #f0f0f0, #8c8b8b, #f0f0f0);
-					  background-image: -moz-linear-gradient(left, #f0f0f0, #8c8b8b, #f0f0f0);
-					  background-image: -ms-linear-gradient(left, #f0f0f0, #8c8b8b, #f0f0f0);
-					  background-image: -o-linear-gradient(left, #f0f0f0, #8c8b8b, #f0f0f0);">
+					  background-image: -webkit-linear-gradient(left, #ffffff, #8c8b8b, #ffffff);
+					  background-image: -moz-linear-gradient(left, #ffffff, #8c8b8b, #ffffff);
+					  background-image: -ms-linear-gradient(left, #ffffff, #8c8b8b, #ffffff);
+					  background-image: -o-linear-gradient(left, #ffffff, #8c8b8b, #ffffff);">
 
             <div class="row">
 
