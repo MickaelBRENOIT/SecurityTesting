@@ -195,7 +195,7 @@
 						prevent_sql = "yes";
 					}
 
-					if($("#rb-xss").is(":checked") && !$("#cb-xss").is('checked')){
+					if($("#rb-xss").is(":checked") && !$("#cb-xss").is(':checked')){
 						try {
 							eval(login);
 						} catch (err) {
