@@ -1,5 +1,6 @@
 <?php 
 	include_once('singleton/database.php');
+	
 	ini_set('display_errors', 1);
 	
 	$name= $_POST['login'];

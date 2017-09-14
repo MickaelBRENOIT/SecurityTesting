@@ -12,7 +12,7 @@
 		$sub = str_replace(array("\n\r", "\n", "\r"), '', $word);
 		$hash=md5($sub);
 		
-		$query = "SELECT * FROM accounts right JOIN users ON accounts.iduser = users.id WHERE login = '".$name."' AND pass = '".$hash."'";
+		$query = "SELECT * FROM accounts RIGHT JOIN users ON accounts.iduser = users.id WHERE login = '".$name."' AND pass = '".$hash."'";
 		
 		$result = $con->queryDB($query);
 		$total = $result->rowCount();
