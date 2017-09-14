@@ -1,56 +1,26 @@
-<!DOCTYPE <!DOCTYPE html>
-<html lang="fr">
+<?php include("../header.php"); ?>
 
-    <head>
-    
-        <!-- allow to use accents -->
-        <meta charset="utf-8">
-        
-        <!-- Basic SEO Optimization -->
-        <meta name="description" content="">
-        <meta name="keywords" content="">
-        
-        <!-- allow compatibility with IE -->
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        
-        <!-- allow compatibility with small devices like tablets and phones -->
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        
-        <!-- title of the website -->
-        <title>Security tests</title>
-        
-        <!-- icon of the website -->
-        <link rel="shortcut icon" href="">
-        
-        <!-- Fonts : need to be load before any others css files (Default Font "Roboto") -->
-        <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed:300,300i,400,400i,700,700i" rel="stylesheet">
-        
-        <!-- CSS -->
-        <link rel="stylesheet" href="../css/bootstrap.min.css">
-        
-    </head>
-
-    <body>
-
-        <div class="container">
+        <div class="section  col-md-10 col-md-offset-1">
             <div class="row">                
                 <div class="col-md-6">
 
                     <h2 style="text-align:center;">Insert Users</h2>
                     
-                    <form id="insertUserWithSecurity">
+                    <form id="insertUserWithSecurity" action="./processorInsertUser.php" method="post" onSubmit="return checkInsertUser();" enctype="multipart/form-data">
                           <div class="form-group">
-                            <input type="text" class="form-control" id="loginWithSecurity" placeholder="Login">
-                            <input type="password" class="form-control" id="passwordWithSecurity" placeholder="Password">
+                            <input type="text" class="form-control" id="loginWithSecurity" placeholder="Login" name="login">
+                            <input type="password" class="form-control" id="passwordWithSecurity" placeholder="Password" name="pass">
+                            <input type="file" name="file" id="fileWithSecurity">
                           </div>
                           <button type="submit" id="submitInsertUserWithSecurity" class="btn btn-block btn-success">Insert</button>
                     </form>
 				</div>
+                
                 <div class="col-md-6">
                     
                     <h2 style="text-align:center;">Insert Accounts</h2>
                     
-                    <form id="insertAccountWithSecurity">
+                    <form id="insertAccountWithSecurity" action="./processorInsertAccount.php" method="post" onSubmit="return checkInsertAccount();">
                           <div class="form-group">
                             <select type="text" class="form-control" id="accountOwner" placeholder="Login">
                             	<option value="0"></option>
@@ -119,61 +89,53 @@
 			/* Handle the event when the form with security is submitted */
             
 			
-			$("#submitInsertUserWithSecurity").click(function(){
-				if(!$('#submitWithSecurity').hasClass('disabled')){
-					var login = $("#loginWithSecurity").val();
-					var pass = $("#passwordWithSecurity").val();
-					var dataString = 'login='+ login + '&pass='+ pass;
-					if(login == '' || pass == '')
-					{
-						$("#display").html("<h4 class=\"bg-warning\" style=\"text-align:center; padding: 30px 0 30px 0;\">Please fill all fields</h4>");
-					}
-					else
-					{
-						$.ajax({
-							type: "POST",
-							url: "processorInsertUser.php",
-							data: dataString,
-							cache: false,
-							success: function(result){
-								$("#display").html(result);
-								$("#insertUserWithSecurity")[0].reset();
-							}
-						});
-					}
-					return false;
-				} else {
-					return false;
-				}
-            });
 			
-			$("#submitInsertAccountWithSecurity").click(function(){
-				var owner = $("#accountOwner").val();
-				var type = $("#accountType").val();
-				var amount = $("#accountAmount").val();
-				var dataString = 'owner='+ owner + '&type='+ type + '&amount='+ amount;
-				if(owner == '' || type == '' || amount == '')
-				{
-					$("#display").html("<h4 class=\"bg-warning\" style=\"text-align:center; padding: 30px 0 30px 0;\">Please fill all fields</h4>");
-				}
-				else
-				{
-					$.ajax({
-						type: "POST",
-						url: "processorInsertAccount.php",
-						data: dataString,
-						cache: false,
-						success: function(result){
-							$("#display").html(result);
-							$("#insertAccountWithSecurity")[0].reset();
-						}
-					});
-				}
-				return false;
-            });
         });
+		
+		function checkInsertUser(){
+			//if(!$('#submitWithSecurity').hasClass('disabled')){
+			var login = $("#loginWithSecurity").val();
+			var pass = $("#passwordWithSecurity").val();
+			var filename = $("#fileWithSecurity").val();
+			//var dataString = 'login='+ login + '&pass='+ pass;
+			if(login == '' || pass == '')
+			{
+				$("#display").html("<h4 class='bg-warning message'>Please fill all fields</h4>");
+				return false;
+			}
+			if(filename != ""){
+				var ext = getExtension(filename);
+				switch (ext.toLowerCase()) {
+					case 'jpg':
+					case 'gif':
+					case 'bmp':
+					case 'png':
+						return true;
+					default:
+						$("#display").html("<h4 class='bg-warning message'>Please select a valid file (image)</h4>");
+						return false;
+				}
+			}
+			//etc
+			return true;
+		}
+			
+		function checkInsertAccount(){
+			var owner = $("#accountOwner").val();
+			var type = $("#accountType").val();
+			var amount = $("#accountAmount").val();
+			//var dataString = 'owner='+ owner + '&type='+ type + '&amount='+ amount;
+			if(owner == '' || type == '' || amount == '')
+			{
+				$("#display").html("<h4 class=\"bg-warning\" style=\"text-align:center; padding: 30px 0 30px 0;\">Please fill all fields</h4>");
+				return false;
+			}
+			return true;
+		}
+		
+		function getExtension(filename) {
+			var parts = filename.split('.');
+			return parts[parts.length - 1];
+		}
         </script>
-
-    </body>
-
-</html>
+<?php include("../footer.php"); ?>
