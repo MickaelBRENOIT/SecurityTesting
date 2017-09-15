@@ -15,10 +15,13 @@
 	$result->bindParam(2, $amountclean);
 	$result->bindParam(3, $owner);
 	$result->execute();
-	
+
 	if(!$result){
 		echo "<h3 style=\"text-align:center;\">Erreur lors de l'insertion</h3>";
+		while($er = $error){
+			echo $er."<br/>";
+		}
 	}else{
-		echo "<h3 style=\"text-align:center;\">Compte ajouté avec succes</h3>";
+		header("Location: ./insert.php");
 	}
 ?>

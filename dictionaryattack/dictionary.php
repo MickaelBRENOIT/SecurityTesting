@@ -23,7 +23,7 @@
 			echo "<br/>";
 			echo "<h2 style=\"text-align:center;\">Results</h2>";
 			echo "<h4 style=\"text-align:center;\">Get hacked - Login : ".$name." - Pass : ".$sub."</h4>";
-			echo "<table class=\"table table-striped\">\n";
+			/*echo "<table class=\"table table-striped\">\n";
 			echo "    <thead>\n";
 			echo "      <tr>\n";
 			echo "        <th>Login</th>\n";
@@ -45,9 +45,10 @@
 			
 			echo "    </tbody>\n";
 			echo "  </table>";
-
+			*/
 			$executionTime = microtime(true) - $start;
 			echo "<h3 style=\"text-align:center;\">Execution Time : ".$executionTime." seconds</h3>";
+			echo "&*###*&$name&*###*&$sub";
 			break;
 		}
 	}

