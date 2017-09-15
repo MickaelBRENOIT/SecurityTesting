@@ -5,7 +5,8 @@
 	
 	$name= $_POST['login'];
 	$pass= $_POST['pass'];
-	$prevent_injection_sql= $_POST['sql'];
+	$prevent_injection_sql= isset($_POST['sql'])?"yes":"no";
+	$prevent_xss_attack= isset($_POST['xss'])?"yes":"no";
 
 	$con = Database::getConnection();
 	
@@ -37,6 +38,8 @@
 		$cookie_value_password = $pass;
 		setcookie($cookie_name_password, $cookie_value_password, time() + (86400 * 30), "/");
 
+		$_SESSION["token"] = md5(date("mm-dd-yyyy"));
+		$_SESSION["connected"] = true;
 	?>
         <div class="section col-md-6 col-md-offset-3">
         
@@ -57,16 +60,24 @@
 				echo "      </tr>\n";
 				echo "    </thead>\n";
 				echo "    <tbody>\n";
-				
-				while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
-					echo "      <tr>\n";
-					echo "        <td>".$row['login']."</td>\n";
-					echo "        <td>".$row['type']."</td>\n";
-					echo "        <td>".$row['amount']."</td>\n";
-					//echo "        <td>".$row['iduser']."</td>\n";
-					echo "      </tr>\n";
-				}
-				
+				if($prevent_xss_attack == "no")
+					while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
+						echo "      <tr>\n";
+						echo "        <td>".$row['login']."</td>\n";
+						echo "        <td>".$row['type']."</td>\n";
+						echo "        <td>".$row['amount']."</td>\n";
+						//echo "        <td>".$row['iduser']."</td>\n";
+						echo "      </tr>\n";
+					}
+				else
+					while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
+						echo "      <tr>\n";
+						echo "        <td>".htmlspecialchars($row['login'])."</td>\n";
+						echo "        <td>".htmlspecialchars($row['type'])."</td>\n";
+						echo "        <td>".htmlspecialchars($row['amount'])."</td>\n";
+						//echo "        <td>".$row['iduser']."</td>\n";
+						echo "      </tr>\n";
+					}
 				echo "    </tbody>\n";
 				echo "  </table>";
 				?>

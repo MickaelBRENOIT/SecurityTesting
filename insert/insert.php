@@ -1,5 +1,11 @@
-<?php include("../header.php"); ?>
-
+<?php
+	session_start();
+	if(!isset($_SESSION["connected"]))
+		header("Location: ../");
+	session_write_close();	
+ 	include("../header.php"); 
+	include_once('../singleton/database.php');
+?>
         <div class="section  col-md-10 col-md-offset-1">
             <div class="row">                
                 <div class="col-md-6">
@@ -25,7 +31,6 @@
                             <select type="text" class="form-control" id="accountOwner" placeholder="Login">
                             	<option value="0"></option>
                             	<?php
-									include_once('../singleton/database.php');
 									$con = Database::getConnection();
 									$result = $con->prepareDB("SELECT id, login FROM users") ;
 									$result->execute();
@@ -76,27 +81,14 @@
             </div>
             
         </div>
-
-        <!-- JQuery JS -->
-        <script src="../js/jquery.js"></script>
-
-        <!-- JQuery cookie JS -->
-        <script src="../js/jquery.cookie.js"></script>
-
+        
         <script>
-        $(document).ready(function(){
-			
-			/* Handle the event when the form with security is submitted */
-            
-			
-			
-        });
 		
 		function checkInsertUser(){
-			//if(!$('#submitWithSecurity').hasClass('disabled')){
 			var login = $("#loginWithSecurity").val();
 			var pass = $("#passwordWithSecurity").val();
 			var filename = $("#fileWithSecurity").val();
+			
 			//var dataString = 'login='+ login + '&pass='+ pass;
 			if(login == '' || pass == '')
 			{
@@ -127,7 +119,7 @@
 			//var dataString = 'owner='+ owner + '&type='+ type + '&amount='+ amount;
 			if(owner == '' || type == '' || amount == '')
 			{
-				$("#display").html("<h4 class=\"bg-warning\" style=\"text-align:center; padding: 30px 0 30px 0;\">Please fill all fields</h4>");
+				$("#display").html("<h4 class='bg-warning message'>Please fill all fields</h4>");
 				return false;
 			}
 			return true;

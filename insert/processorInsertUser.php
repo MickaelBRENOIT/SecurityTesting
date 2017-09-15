@@ -7,6 +7,7 @@
 	
 	$error = array();
     $upload_dir = './uploads/';
+	$filename = "";
 	
 	if(count($_FILES) > 0){
 		$allowed_ext = array('jpg','jpeg','png','gif');
@@ -15,25 +16,23 @@
 		if(array_key_exists('file',$_FILES) && $_FILES['file']['error'] == 0 ){
 			
 			$pic = $_FILES['file'];
-			$ext = get_extension($pic['name']);
+			$ext = pathinfo($pic['name'], PATHINFO_EXTENSION);
+			
 			if(!in_array($ext,$allowed_ext))
 				$error['extension'] = "Seuls les formats 'jpg', 'jpeg', 'png' et 'gif' sont autorisés !";
-			echo "extension pass ".$pic['name']."<br/>";
+				
 			$size = floatval(filesize($pic['tmp_name'])/(1024*1024));
 			if($size > 1)
 				$error['size'] = "L'image ne doit pas dépasser 1mo !";
-			echo "size pass<br/>";
 				
 			if(count($error) == 0 || $error == ""){
 				if(!file_exists($upload_dir)){
 					mkdir($upload_dir);
 				}
-			echo "mkdir pass<br/>";
 				
 				if(!move_uploaded_file($pic['tmp_name'],$upload_dir.$pic['name']))
 					$error['move'] = "Une erreur s'est produite lors du chargement de l'image.";
-				else
-					echo "move pass<br/>";
+				$filename = $upload_dir.$pic['name'];
 			}
 		}
 	}
@@ -57,7 +56,9 @@
 		}
 	}else{
 		//header("Location: ./insert.php");
-		//var_dump($_FILES);
+		var_dump($_FILES);
+		if($filename != "")
+			echo "<img src='$filename' width='50px'/>";
 		//var_dump($_POST);
 	}
 	
