@@ -1,3 +1,4 @@
+<?php session_start();?> 
 <!DOCTYPE <!DOCTYPE html>
 <html lang="fr">
 
@@ -30,6 +31,18 @@
         <link rel="stylesheet" href="http://uha.artgalerielataniere.fr/css/site.css">
     	<link href="http://uha.artgalerielataniere.fr/css/materialdesignicons.min.css" media="all" rel="stylesheet" type="text/css" />
         
+        
+        
+        <!-- JQuery JS -->
+        <script src="js/jquery.js"></script>
+
+        <!-- JQuery cookie JS -->
+        <script src="js/jquery.cookie.js"></script>
     </head>
 
     <body>
+    <?php if(isset($_SESSION["connected"])){?>
+    	<div class="row">
+    		<a class="btn btn-danger pull-right" href="/logout.php">Logout</a>
+        </div>
+    <?php } ?>
