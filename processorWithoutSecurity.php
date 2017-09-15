@@ -40,6 +40,10 @@
 
 		$_SESSION["token"] = md5(date("mm-dd-yyyy"));
 		$_SESSION["connected"] = true;
+		$query_idUser = "SELECT id FROM users WHERE login = '".$name."' AND pass = '".$hash."'";
+		$result_idUser = $con->queryDB($query_idUser);
+		$idUser = $result_idUser->fetch(PDO::FETCH_ASSOC);
+		$_SESSION["idUser"] = $idUser['id'];
 	?>
         <div class="section col-md-6 col-md-offset-3">
         

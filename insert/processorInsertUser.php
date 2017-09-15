@@ -32,7 +32,7 @@
 				
 				if(!move_uploaded_file($pic['tmp_name'],$upload_dir.$pic['name']))
 					$error['move'] = "Une erreur s'est produite lors du chargement de l'image.";
-				$filename = $upload_dir.$pic['name'];
+				$filename = "./insert/uploads/" . $pic['name'];
 			}
 		}
 	}
@@ -44,9 +44,10 @@
 		
 		$con = Database::getConnection();
 		
-		$result = $con->prepareDB("INSERT INTO users VALUES ( NULL, ? , ? )") ;
+		$result = $con->prepareDB("INSERT INTO users VALUES ( NULL, ? , ? , ?)") ;
 		$result->bindParam(1, $nameclean);
 		$result->bindParam(2, $hash);
+		$result->bindParam(3, $filename);
 		$result->execute();
 	}
 	if(!$result || count($error) > 0){

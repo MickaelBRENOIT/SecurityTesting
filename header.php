@@ -27,9 +27,9 @@
         <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed:300,300i,400,400i,700,700i" rel="stylesheet">
         
         <!-- CSS -->
-        <link rel="stylesheet" href="http://uha.artgalerielataniere.fr/css/bootstrap.min.css">
-        <link rel="stylesheet" href="http://uha.artgalerielataniere.fr/css/site.css">
-    	<link href="http://uha.artgalerielataniere.fr/css/materialdesignicons.min.css" media="all" rel="stylesheet" type="text/css" />
+        <link rel="stylesheet" href="http://127.0.0.1/securitytesting/css/bootstrap.min.css">
+        <link rel="stylesheet" href="http://127.0.0.1/securitytesting/css/site.css">
+    	<link href="http://127.0.0.1/securitytesting/css/materialdesignicons.min.css" media="all" rel="stylesheet" type="text/css" />
         
         
         
@@ -43,6 +43,6 @@
     <body>
     <?php if(isset($_SESSION["connected"])){?>
     	<div class="row">
-    		<a class="btn btn-danger pull-right" href="/logout.php">Logout</a>
+    		<a class="btn btn-danger pull-right" href="./logout.php">Logout</a>
         </div>
     <?php } ?>

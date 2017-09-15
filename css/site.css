@@ -56,14 +56,14 @@ body{
 	width:100%;
 }
 
-.avatar{
+.account-infos{
 	text-align: center;
 	color: black;
 	width: 100%;
 }
 
 
-
+/*
 .avatar i.mdi{
 	font-size: 100px;
 	text-align: center;
@@ -73,4 +73,10 @@ body{
 	border: 10px solid black;
 	border-radius: 50%;
 	display: inline-block;
+}*/
+
+.img-rounded {
+	text-align: center;
+	border: 10px solid black;
+	border-radius: 50%;
 }

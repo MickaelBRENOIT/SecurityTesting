@@ -1,4 +1,4 @@
-<?php 
+<?php /*
 	include_once('./singleton/database.php');
 	include_once('header.php');
 	ini_set('display_errors', 1);
@@ -30,10 +30,10 @@
 		$result = $con->prepareDB("INSERT INTO users (login, pass) VALUES ('bobi', md5('saligots') )") ;
 		$result->execute();
 	*/?>
-     <div class="row">
+     <!--<div class="row">
 
-            <div class="col-md-6 col-md-offset-3">
-			<?php
+            <div class="col-md-6 col-md-offset-3">-->
+			<?php/*
 				echo "<h2 style=\"text-align:center;\">Results</h2>";
 				echo "<table class=\"table table-striped\">\n";
 				echo "    <thead>\n";
@@ -63,5 +63,5 @@
         </div>
     <?php
 	}
-	include_once('footer.php');
+	include_once('footer.php');*/
 ?>
