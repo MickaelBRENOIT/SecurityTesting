@@ -85,6 +85,7 @@ $(document).ready(function(){
 function submitCheck(){
     if($("#rb-include").is(":checked")){
         window.location = "http://127.0.0.1/securitytesting/?includeattack=1";
+        return false;
     }
 
     if($("#submitWithoutSecurity").hasClass("disabled"))
