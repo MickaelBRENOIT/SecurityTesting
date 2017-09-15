@@ -32,7 +32,7 @@
 				echo "      </tr>\n";
 				echo "    </thead>\n";
 				echo "    <tbody>\n";
-				if($_SESSION['xss'] == "yes")
+				if($_SESSION['xss'] == "no")
 					while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
 						echo "      <tr>\n";
 						echo "        <td>".$row['login']."</td>\n";

