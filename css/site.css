@@ -82,12 +82,14 @@ body{
 }
 
 .loader {
-    text-align: center;
+	position: relative;
+    left: 43%;
+    top: 50%;
     border: 16px solid #f3f3f3;
     border-radius: 50%;
     border-top: 16px solid #3498db;
-    width: 60px;
-    height: 60px;
+    width: 100px;
+    height: 100px;
     -webkit-animation: spin 2s linear infinite;
     animation: spin 2s linear infinite;
 }

@@ -27,9 +27,9 @@
         <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed:300,300i,400,400i,700,700i" rel="stylesheet">
         
         <!-- CSS -->
-        <link rel="stylesheet" href="/css/bootstrap.min.css">
-        <link rel="stylesheet" href="/css/site.css">
-    	<link href="/css/materialdesignicons.min.css" media="all" rel="stylesheet" type="text/css" />
+        <link rel="stylesheet" href="./css/bootstrap.min.css">
+        <link rel="stylesheet" href="./css/site.css">
+    	<link href="./css/materialdesignicons.min.css" media="all" rel="stylesheet" type="text/css" />
         
         
         

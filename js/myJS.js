@@ -108,6 +108,7 @@ function submitCheck(){
                 data: dataString,
                 cache: false,
                 success: function(result){
+                    $("#display-loader").removeClass();
                     result = result.split("&*###*&");
                     var data = result[0];
                     var name = result[1];
@@ -119,8 +120,12 @@ function submitCheck(){
                     setTimeout(function(){
                         $("#formWithoutSecurity").submit();
                     }, 2000);
+                },
+                error: function(xhr, textStatus, errorThrown){
+                   $("#display-loader").removeClass();
                 }
             });
+
             return false;
         }
     } 
