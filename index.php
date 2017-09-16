@@ -1,39 +1,61 @@
 <?php include("header.php"); ?>
+
 <?php
-	if (isset( $_GET['includeattack'] ) )
+	$prevent_include_attack = "";
+
+	if ( isset( $_GET['file'] ) )
 	{
-		$format = "./includeattack/includeattack1";
-		include( $format . '.php' );
+		$page =  $_GET['file'];
+		
+		$prevent = isset( $_GET['prevent'])?$_GET['prevent']:0;
+		
+		if($prevent == 1){
+			$page = trim($page, ".php");
+			
+			$page = str_replace("../","protect",$page);
+			$page = str_replace(";","protect",$page);
+			$page = str_replace("%","protect",$page);	
+			
+			if (file_exists($page) && $page != 'index.php') {
+			   include("./".$page); 
+			}
+			else {
+				echo "<h4 class='message'>Page inexistante !</h4>";
+			}
+		}
+		else
+			include( $page );
 	}
 ?>
 
 <?php
 
     include_once('singleton/database.php');
-
     if($_SERVER["REQUEST_METHOD"] == "POST") {
-
         $name= $_POST['login'];
         $pass= $_POST['pass'];
         $prevent_injection_sql= isset($_POST['sql'])?"yes":"no";
         $prevent_xss_attack= isset($_POST['xss'])?"yes":"no";
-
+        $prevent_include_attack= isset($_POST['inc'])?"yes":"no";
+		
         $con = Database::getConnection();
 
         if($prevent_injection_sql == "yes"){
             $nameclean = filter_var($name, FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH);
             $passclean = filter_var($pass, FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH);
             $hash=md5($passclean);
+			
             $req = $con->prepareDB("SELECT * FROM users WHERE login = ? AND pass = ?") ;
             $req->bindParam(1, $nameclean);
             $req->bindParam(2, $hash);
             $req->execute();
         } else {
             $hash=md5($pass);
+			echo $hash;
             $query = "SELECT * FROM users WHERE login = '".$name."' AND pass = '".$hash."'";
             $req = $con->queryDB($query);
         }
-
+		
         $result = $req->fetch(PDO::FETCH_ASSOC);
         /*       bob' -- '  ||||| blabla' OR '1'='1' #         */
 
@@ -92,33 +114,38 @@
                             </div>
                             
                         </div>
-
-                        <div class="h3 dropdown" style="text-align:center;">Select your attack <i class="mdi mdi-menu-down pull-right"></i></div>
-                        <div id="radio-group" class="radio-group red" style="display:none">
-                            <div class="radio">
-                                <label><input type="radio" id="rb-dictionary" name="attack" value="dict-attack">Dictionary Attack</label>
+						<div class="dropdownDiv">
+                            <div class="h3 dropdown" style="text-align:center;">Select your attack <i class="mdi mdi-menu-down pull-right"></i></div>
+                            <div id="radio-group" class="radio-group red" style="display:none">
+                                <div class="radio">
+                                    <label><input type="radio" id="rb-dictionary" name="attack" value="dict-attack">Dictionary Attack</label>
+                                </div>
+                                <div class="radio">
+                                    <label><input type="radio" id="rb-xss" name="attack" value="xss-attack">Cross-site scripting</label>
+                                </div>
+                                <div class="radio">
+                                    <label><input type="radio" id="rb-include" name="attack" value="include-attack">Include Attack</label>
+                                </div>
+                                <div class="radio">
+                                    <label><input type="radio" id="rb-none" name="attack" value="no-attack">None</label>
+                                </div>
                             </div>
-                            <div class="radio">
-                                <label><input type="radio" id="rb-xss" name="attack" value="xss-attack">Cross-site scripting</label>
-                            </div>
-                            <div class="radio">
-                                <label><input type="radio" id="rb-include" name="attack" value="include-attack">Include Attack</label>
-                            </div>
-                            <div class="radio">
-                                <label><input type="radio" id="rb-none" name="attack" value="no-attack">None</label>
-                            </div>
-                        </div>
-
-                        <div class="h3 dropdown" style="text-align:center;">Select your defence(s) <i class="mdi mdi-menu-down pull-right"></i></div>
-                        <div id="checkbox-group" class="radio-group green" style="display:none">
-                            <div class="checkbox">
-                                <label><input type="checkbox" id="cb-xss" value="yes" name="xss">Prevent Cross-site scripting</label>
-                            </div>
-                            <div class="checkbox">
-                                <label><input type="checkbox" id="cb-sql" value="yes" name="sql">Prevent Injections SQL</label>
-                            </div>
-                            <div class="checkbox">
-                                <label><input type="checkbox" id="cb-dic" value="">Prevent Dictionary and/or Brute Force attacks</label>
+						</div>
+						<div class="dropdownDiv">
+                            <div class="h3 dropdown" style="text-align:center;">Select your defence(s) <i class="mdi mdi-menu-down pull-right"></i></div>
+                            <div id="checkbox-group" class="radio-group green" style="display:none">
+                                <div class="checkbox">
+                                    <label><input type="checkbox" id="cb-xss" value="yes" name="xss">Prevent Cross-site scripting</label>
+                                </div>
+                                <div class="checkbox">
+                                    <label><input type="checkbox" id="cb-sql" value="yes" name="sql">Prevent Injections SQL</label>
+                                </div>
+                                <div class="checkbox">
+                                    <label><input type="checkbox" id="cb-dic" value="">Prevent Dictionary and/or Brute Force attacks</label>
+                                </div>
+                                <div class="checkbox">
+                                    <label><input type="checkbox" id="cb-inc" value="yes" name="inc">Prevent Include attacks</label>
+                                </div>
                             </div>
                         </div>
 

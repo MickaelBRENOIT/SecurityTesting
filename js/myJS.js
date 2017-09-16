@@ -1,5 +1,4 @@
 $(document).ready(function(){
-	//console.log($(".fp-tableCell:has(.mysection)"));
 
     $('#fullpage').fullpage();
 	
@@ -89,7 +88,10 @@ $(document).ready(function(){
 
 function submitCheck(){
 	if($("#rb-include").is(":checked")){
-		window.location = "/index.php/?includeattack=1";
+		if($("#cb-inc").is(":checked"))
+			window.location = "?file=./includeattack/includeattack1.php&prevent=1";
+		else
+			window.location = "?file=./includeattack/includeattack1.php&prevent=0";
 		return false;
 	}
 	
