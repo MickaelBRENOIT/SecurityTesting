@@ -4,7 +4,10 @@
 	ini_set('display_errors', 1);
 
 	$con = Database::getConnection();
+	if($_SESSION['idUser'] != 1)
 	$query = "SELECT * FROM accounts RIGHT JOIN users ON accounts.iduser = users.id WHERE users.id = '".$_SESSION['idUser']."'";
+	else
+	$query = "SELECT * FROM accounts RIGHT JOIN users ON accounts.iduser = users.id order by users.id";
 	$result = $con->queryDB($query);
 
 	$total = $result->rowCount();

