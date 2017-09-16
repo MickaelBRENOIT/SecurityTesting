@@ -3,7 +3,7 @@
 		<div class="slide-sql">
 			<h1>SQL Injections</h1>
 			<p>SQL injection is a code injection technique, used to attack data-driven applications, in which nefarious SQL statements are inserted into an entry field for execution.</p>
-			<pre>Example : SELECT * FROM users WHERE login = 'blabla' OR '1'='1' #  AND pass = ?</pre>
+			<pre>Example : SELECT * FROM users WHERE login = 'blabla' OR '1'='1' -- AND pass = ?</pre>
 		</div>
 
 	</div>
@@ -25,7 +25,7 @@
 		<div class="slide-include">
 			<h1>Include Attack</h1>
 			<p>This issue is caused when an application builds a path to executable code using an attacker-controlled variable in a way that allows the attacker to control which file is executed at run time</p>
-			<pre>Example : window.location = "http://127.0.0.1/securitytesting/?includeattack=1"</pre>
+			<pre>Example : window.location = "http://127.0.0.1/securitytesting/?file=www.monSite.fr/"</pre>
 		</div>
 	</div>
 </div>
