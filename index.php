@@ -35,6 +35,7 @@
         }
 
         $result = $req->fetch(PDO::FETCH_ASSOC);
+        /*       bob' -- '  ||||| blabla' OR '1'='1' #         */
 
         if($result){
             
@@ -134,7 +135,10 @@
                     <img src="<?= $row["img"]; ?>" alt="..." class="img-rounded" width="140" height="140">
                     <h3 >Welcome <?= $row["login"]; ?></h3>
                     <a class="btn btn-primary" href="./accounts.php">Show my accounts</a>
-                    <a class="btn btn-default" href="./insert/insert.php">Insert accounts or user</a>
+                    <?php if($_SESSION["idUser"] == "1") { ?>
+                        <a class="btn btn-default" href="./insert/insert.php">Insert accounts or user</a>
+                    <?php } ?>
+
                 </div>
                 
                 <!--<a class="btn btn-danger" href="./logout.php">Logout</a>-->
