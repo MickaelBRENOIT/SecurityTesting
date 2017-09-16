@@ -28,7 +28,7 @@
         
         <!-- CSS -->
         <?php 
-        $path = file_exists("/securitytesting/css/site.css")?"/securitytesting":"";
+        $path = file_exists($_SERVER["DOCUMENT_ROOT"] . "/securitytesting/css/site.css")?"/securitytesting":"";
 		 ?>
         <!-- localhost -->
         <link rel="stylesheet" href="<?php echo $path; ?>/css/bootstrap.min.css" media="all" type="text/css" >
@@ -47,8 +47,8 @@
 
     <body>
     <div class="navigationbar">
-        <a class="pull-left icon" href="../index.php" title="Index"><i class="mdi mdi-bank"></i></a>
+        <a class="pull-left icon" href="<?php echo $path; ?>/index.php" title="Index"><i class="mdi mdi-bank"></i></a>
     <?php if(isset($_SESSION["connected"])){?>
-        <a class="pull-right icon logout" href="/logout.php" title="Logout"><i class="mdi mdi-power"></i></a>
+        <a class="pull-right icon logout" href="<?php echo $path; ?>/logout.php" title="Logout"><i class="mdi mdi-power"></i></a>
     <?php } ?>
     </div>
