@@ -1,4 +1,7 @@
 $(document).ready(function(){
+
+    $('#fullpage').fullpage();
+
     $(".dropdown").click(function(){	
         var mdi = $(this).find(".mdi");
     

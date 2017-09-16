@@ -34,21 +34,37 @@
         <link rel="stylesheet" href="<?php echo $path; ?>/css/bootstrap.min.css" media="all" type="text/css" >
         <link rel="stylesheet" href="<?php echo $path; ?>/css/site.css" media="all" type="text/css" >
     	<link rel="stylesheet" href="<?php echo $path; ?>/css/materialdesignicons.min.css" media="all" type="text/css" />
+        <link rel="stylesheet" href="<?php echo $path; ?>/css/jquery.fullpage.min.css" media="all" type="text/css" />
         
         <!-- JQuery JS -->
         <script src="<?php echo $path; ?>/js/jquery.js"></script>
 
         <!-- JQuery cookie JS -->
         <script src="<?php echo $path; ?>/js/jquery.cookie.js"></script>
+
+        <!-- fullPage JS -->
+        <script src="<?php echo $path; ?>/js/jquery.fullpage.min.js"></script>
         
         
         
     </head>
 
     <body>
-    <div class="navigationbar">
-        <a class="pull-left icon" href="<?php echo $path; ?>/index.php" title="Index"><i class="mdi mdi-bank"></i></a>
-    <?php if(isset($_SESSION["connected"])){?>
-        <a class="pull-right icon logout" href="<?php echo $path; ?>/logout.php" title="Logout"><i class="mdi mdi-power"></i></a>
-    <?php } ?>
-    </div>
+    
+
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header">
+              <a class="navbar-brand" href="<?php echo $path; ?>/index.php"><span class="glyphicon glyphicon-piggy-bank"></span> MMA Bank & Co</a>
+            </div>
+            <ul class="nav navbar-nav">
+                <!-- Items need to be here if needed -->
+            </ul>
+
+        <?php if(isset($_SESSION["connected"])){?>
+            <ul class="nav navbar-nav navbar-right">            
+                <li><a href="<?php echo $path; ?>/logout.php"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+            </ul>
+        <?php } ?>
+        </div>
+    </nav>

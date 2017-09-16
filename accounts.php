@@ -13,7 +13,8 @@
 		echo "<h3 style=\"text-align:center;\">Login/Password incorrect</h3>";
 	}else{
 	?>
-        <div class="section col-md-6 col-md-offset-3">
+	
+        <div class="mysection col-md-6 col-md-offset-3">
         
         	<div class="row">
 

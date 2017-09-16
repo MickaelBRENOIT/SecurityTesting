@@ -1,19 +1,16 @@
 /* CSS Document */
 
 body{
-	background-color:#333;
-	background-image: url(../wallpaper-elegant-background-grey-illumination-wallpaper-wallpapers.jpg);
-	background-position:bottom right;
-	background-repeat:no-repeat;
-	background-size:cover;
+	/*background-color:#5CCCCC;*/
+	background-color:#CADBDB;
 }
 
-.section{
-	background-color:#fff;
+.mysection{
+	/*background-color:#34D0B6;*/
 	padding:15px;/*
 	margin:auto;
 	display:inline-block;*/
-	top:50%;
+	top:20%;
 	transform:translateY(-50%);
 }
 
@@ -44,6 +41,13 @@ body{
 .radio{
 	display:inline-block;
 	padding:0px 5px;
+}
+
+.dropdown {
+	border: solid 2px black;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	padding-left: 5px;
 }
 
 .dropdown:hover{
@@ -100,6 +104,7 @@ body{
 	width:100%;
 	position:absolute;
 	line-height:40px;
+	z-index: 1;
 }
 
 .navigationbar .mdi{
@@ -123,4 +128,58 @@ body{
 @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
+}
+
+.navbar {
+	margin-bottom: 0px;
+}
+
+.slides {
+	z-index: -10;
+	text-align: center;
+}
+
+.slides h1{
+	font-size: 72px;
+}
+
+.slides p{
+	font-size: 32px;
+	padding-left: 80px;
+	padding-right: 80px;
+}
+
+.slide01 {
+	background-color: #33CCCC;
+}
+
+.slide02 {
+	background-color: #5FBDCE;
+}
+
+.slide03 {
+	background-color: #37B6CE;
+}
+
+.slide04 {
+	background-color: #3AAACF;
+}
+
+input.transparent-input{
+       background-color:rgba(0,0,0,0) !important;
+       border: solid 2px black;
+}
+
+.transparent-input:focus {
+  border-color: #0F4DA8;
+}
+
+pre {
+	font-size: 24px;
+	background-color: #C8B7B7;
+    white-space: pre-wrap;       /* Since CSS 2.1 */
+    white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+    white-space: -pre-wrap;      /* Opera 4-6 */
+    white-space: -o-pre-wrap;    /* Opera 7 */
+    word-wrap: break-word;       /* Internet Explorer 5.5+ */
 }

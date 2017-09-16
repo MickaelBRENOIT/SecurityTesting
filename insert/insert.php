@@ -6,7 +6,7 @@
  	include("../header.php"); 
 	include_once('../singleton/database.php');
 ?>
-        <div class="section  col-md-10 col-md-offset-1">
+        <div class="mysection  col-md-10 col-md-offset-1">
             <div class="row">                
                 <div class="col-md-6">
 
