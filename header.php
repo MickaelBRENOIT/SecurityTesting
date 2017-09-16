@@ -27,23 +27,28 @@
         <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed:300,300i,400,400i,700,700i" rel="stylesheet">
         
         <!-- CSS -->
-        <link rel="stylesheet" href="/securitytesting/css/bootstrap.min.css">
-        <link rel="stylesheet" href="/securitytesting/css/site.css">
-    	<link href="/securitytesting/css/materialdesignicons.min.css" media="all" rel="stylesheet" type="text/css" />
-        
-        
+        <?php 
+        $path = file_exists("/securitytesting/css/site.css")?"/securitytesting":"";
+		 ?>
+        <!-- localhost -->
+        <link rel="stylesheet" href="<?php echo $path; ?>/css/bootstrap.min.css" media="all" type="text/css" >
+        <link rel="stylesheet" href="<?php echo $path; ?>/css/site.css" media="all" type="text/css" >
+    	<link rel="stylesheet" href="<?php echo $path; ?>/css/materialdesignicons.min.css" media="all" type="text/css" />
         
         <!-- JQuery JS -->
-        <script src="js/jquery.js"></script>
+        <script src="<?php echo $path; ?>/js/jquery.js"></script>
 
         <!-- JQuery cookie JS -->
-        <script src="js/jquery.cookie.js"></script>
+        <script src="<?php echo $path; ?>/js/jquery.cookie.js"></script>
+        
+        
+        
     </head>
 
     <body>
     <div class="navigationbar">
-        <a class="pull-left icon" href="/securitytesting/index.php" title="Index"><i class="mdi mdi-bank"></i></a>
+        <a class="pull-left icon" href="../index.php" title="Index"><i class="mdi mdi-bank"></i></a>
     <?php if(isset($_SESSION["connected"])){?>
-        <a class="pull-right icon logout" href="./logout.php" title="Logout"><i class="mdi mdi-power"></i></a>
+        <a class="pull-right icon logout" href="/logout.php" title="Logout"><i class="mdi mdi-power"></i></a>
     <?php } ?>
     </div>
