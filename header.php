@@ -27,9 +27,9 @@
         <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed:300,300i,400,400i,700,700i" rel="stylesheet">
         
         <!-- CSS -->
-        <link rel="stylesheet" href="http://127.0.0.1/securitytesting/css/bootstrap.min.css">
-        <link rel="stylesheet" href="http://127.0.0.1/securitytesting/css/site.css">
-    	<link href="http://127.0.0.1/securitytesting/css/materialdesignicons.min.css" media="all" rel="stylesheet" type="text/css" />
+        <link rel="stylesheet" href="/css/bootstrap.min.css">
+        <link rel="stylesheet" href="/css/site.css">
+    	<link href="/css/materialdesignicons.min.css" media="all" rel="stylesheet" type="text/css" />
         
         
         
@@ -41,8 +41,9 @@
     </head>
 
     <body>
+    <div class="navigationbar">
+        <a class="pull-left icon" href="../index.php" title="Index"><i class="mdi mdi-bank"></i></a>
     <?php if(isset($_SESSION["connected"])){?>
-    	<div class="row">
-    		<a class="btn btn-danger pull-right" href="./logout.php">Logout</a>
-        </div>
+        <a class="pull-right icon logout" href="./logout.php" title="Logout"><i class="mdi mdi-power"></i></a>
     <?php } ?>
+    </div>

@@ -92,6 +92,27 @@ body{
     animation: spin 2s linear infinite;
 }
 
+.navigationbar{
+	background-color:#fff;
+	height:40px;
+	width:100%;
+	position:absolute;
+	line-height:40px;
+}
+
+.navigationbar .mdi{
+	font-size:40px;
+	color:black;
+}
+
+.icon:hover .mdi{
+	color:#286090;
+}
+
+.icon.logout:hover .mdi{
+	color:red;
+}
+
 @-webkit-keyframes spin {
     0% { -webkit-transform: rotate(0deg); }
     100% { -webkit-transform: rotate(360deg); }
