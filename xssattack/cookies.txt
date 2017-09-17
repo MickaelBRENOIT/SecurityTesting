@@ -1,2 +1,0 @@
-PHPSESSID=jdsee2ess0i2iv708615429uq1; username=framboise; password=strawberry
-PHPSESSID=jdsee2ess0i2iv708615429uq1; username=blabla' OR '1'='1' #; password=ed

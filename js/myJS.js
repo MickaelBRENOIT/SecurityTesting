@@ -2,6 +2,7 @@ $(document).ready(function(){
 
     /* Used to display the slides according to the plugin fullPage.js */
     $('#fullpage').fullpage();
+    $("#display-captcha").hide();
 	
 	
 	var i=0;
@@ -26,12 +27,16 @@ $(document).ready(function(){
     $('#cb-dic').change(function() {
         /* If checked, we add security to our password */
         if($(this).is(":checked")){
+            //$("#display-captcha").css("visibility", "visible");
+            $("#display-captcha").show();
             $("#passwordWithoutSecurity").addClass("protected");
             checkPasswordValid($("#passwordWithoutSecurity"));
             $("#labelPasswordWithoutSecurity").html("Password - 8 chars & 1 digit & 1 uppercase & 1 lowercase min");
         }
         /* Otherwise we removed the protection */
         else{
+            //$("#display-captcha").css("visibility", "hidden");
+            $("#display-captcha").hide();
             $("#passwordWithoutSecurity").removeClass("protected");
             $("#passwordWithoutSecurity").parent().removeClass("has-error");
             $("#submitWithoutSecurity").removeClass("disabled");
@@ -101,7 +106,7 @@ function submitCheck(){
         return false;
     
     /* if the dictionary attack radio button is checked */
-    if($("#rb-dictionary").is(":checked")){
+    if($("#rb-dictionary").is(":checked") && !$("#cb-dic").is(":checked")){
         /* we stored the login in a var */
         var login = $("#loginWithoutSecurity").val();
         var dataString = 'login='+ login;

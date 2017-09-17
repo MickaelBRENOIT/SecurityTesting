@@ -44,6 +44,9 @@
 
         <!-- fullPage JS -->
         <script src="<?php echo $path; ?>/js/jquery.fullpage.min.js"></script>
+
+        <!-- Captcha Google -->
+        <script src='https://www.google.com/recaptcha/api.js'></script>
         
         
         

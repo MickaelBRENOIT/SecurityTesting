@@ -1,4 +1,7 @@
-<?php include("header.php"); ?>
+<?php 
+    include("header.php"); 
+    require("captcha/autoload.php");
+?>
 
 <?php
 
@@ -47,60 +50,23 @@
         /* We look if the checkbox about preventing xss attack was checked and we assign a value to the variable */
         $prevent_xss_attack= isset($_POST['xss'])?"yes":"no";
         //$prevent_include_attack= isset($_POST['inc'])?"yes":"no";
-		
-        $con = Database::getConnection();
+        $prevent_dictionary_attack= isset($_POST['dic'])?"yes":"no";
 
-        /* If the checkbox was checked about preventing sql injection, we ... */
-        if($prevent_injection_sql == "yes"){
-            
-            /* ... filter the login and password variables in order to not accept quotes or tags */
-            $nameclean = filter_var($name, FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH);
-            $passclean = filter_var($pass, FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH);
-
-            /* We hashed the password */
-            $hash=md5($passclean);
-			
-            /* We do a prepare statement and we bind the values */
-            $req = $con->prepareDB("SELECT * FROM users WHERE login = ? AND pass = ?") ;
-            $req->bindParam(1, $nameclean);
-            $req->bindParam(2, $hash);
-            $req->execute();
+        /*We look if the checkbox about preventing xss attack was checked and we test if the captcha was validated or not */
+        if($prevent_dictionary_attack == "yes") {
+            $recaptcha = new \ReCaptcha\ReCaptcha('6Lc6_TAUAAAAAJy6Xhu6Yvt3nxk_4VpdE0VnNTrs');
+            $resp = $recaptcha->verify($_POST["g-recaptcha-response"]);
+            if ($resp->isSuccess()) {
+                // verified!
+                // if Domain Name Validation turned off don't forget to check hostname field
+                // if($resp->getHostName() === $_SERVER['SERVER_NAME']) {  }
+                include_once("./processor.php");
+            } else {
+                //$errors = $resp->getErrorCodes();
+                $error = "Captcha invalid, Script / Robot ?";
+            }
         } else {
-            $hash=md5($pass);
-
-            /* The checkbox was not checked so we do a normal query */
-            /*       bob' -- '  ||||| blabla' OR '1'='1' #         */
-            $query = "SELECT * FROM users WHERE login = '".$name."' AND pass = '".$hash."'";
-            $req = $con->queryDB($query);
-        }
-		
-        /* The result of the query is stored in a associative array */
-        $result = $req->fetch(PDO::FETCH_ASSOC);
-        
-        /* If a user is found */
-        if($result){
-            
-            /* We set some cookies */
-            $cookie_name_username = "username";
-            $cookie_value_username = $name;
-            setcookie($cookie_name_username, $cookie_value_username, time() + (86400 * 30), "/");
-
-            $cookie_name_password = "password";
-            $cookie_value_password = $pass;
-            setcookie($cookie_name_password, $cookie_value_password, time() + (86400 * 30), "/");
-
-            /* We set his session with some informations */
-            $_SESSION["token"] = md5(date("mm-dd-yyyy"));
-            $_SESSION["connected"] = true;
-            $_SESSION["idUser"] = $result['id'];
-            $_SESSION["xss"] = $prevent_xss_attack;
-
-            /* We redirect the user to his accounts */
-            header("location: ./accounts.php");
-
-        }else{
-            //echo "<h3 style=\"text-align:center;\">Login/Password incorrect</h3>";
-            $error = "Login/Password incorrect";
+            include_once("./processor.php");
         }
     }
 ?>
@@ -131,8 +97,11 @@
 
                             <div class="col-md-10 col-md-offset-1">
                                 
+                                <!-- display a captcha -->
+                                <div id="display-captcha" class="g-recaptcha" data-sitekey="6Lc6_TAUAAAAAHkIVevmUO50HLl2U1QDU3n7CflS"></div>
                                 <!-- if an error is triggered when submitting the form, it's displayed here-->
-                                <div id="display-errors" class="bg-danger message"><?php if(isset($error)) echo $error; ?></div>
+                                <div id="display-errors" class="bg-danger message" style="background-color: #D46A6A;"><?php if(isset($error)) echo $error; ?></div>
+                                <!-- display the loader when a dictionary attack is launched -->
                                 <div id="display-loader" style="text-align:center;"></div>
 
                             </div>
@@ -167,7 +136,7 @@
                                     <label><input type="checkbox" id="cb-sql" value="yes" name="sql">Prevent Injections SQL</label>
                                 </div>
                                 <div class="checkbox">
-                                    <label><input type="checkbox" id="cb-dic" value="">Prevent Dictionary and/or Brute Force attacks</label>
+                                    <label><input type="checkbox" id="cb-dic" value="yes" name="dic">Prevent Dictionary and/or Brute Force attacks</label>
                                 </div>
                                 <div class="checkbox">
                                     <label><input type="checkbox" id="cb-inc" value="yes" name="inc">Prevent Include attacks</label>
