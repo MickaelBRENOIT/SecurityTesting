@@ -1,17 +1,21 @@
 <?php
 	include_once('../singleton/database.php');
+
+	/* we will need that in order to calculate our process time */
 	$start = microtime(true);
 	$name= $_POST['login'];
+
+	/* We retrieve all the lines on our dictionary */
 	$lines = file("./wordlist263533.txt");
 	$con = Database::getConnection();
 	$i = 0;
 	foreach ($lines as $word) {
-		// Need to test every word in the dictionary
-		//$sub = substr($word, 0, -1);
-		//$sub = str_replace('[^a-zA-Z0-9]', '', $word);
+		/* we delete unwanted characters as end of line */
 		$sub = str_replace(array("\n\r", "\n", "\r"), '', $word);
+		/* we hash our word */
 		$hash=md5($sub);
 		
+		/* we test the word as a possible password */
 		$query = "SELECT * FROM accounts RIGHT JOIN users ON accounts.iduser = users.id WHERE login = '".$name."' AND pass = '".$hash."'";
 		
 		$result = $con->queryDB($query);
@@ -20,32 +24,11 @@
 		if($total<1){
 			//echo "<h3 style=\"text-align:center;\">Login/Password incorrect</h3>";
 		}else{
+			/* if something is found, the person is hacked */
 			echo "<br/>";
 			echo "<h2 style=\"text-align:center;\">Results</h2>";
 			echo "<h4 style=\"text-align:center;\">Get hacked - Login : ".$name." - Pass : ".$sub."</h4>";
-			/*echo "<table class=\"table table-striped\">\n";
-			echo "    <thead>\n";
-			echo "      <tr>\n";
-			echo "        <th>Login</th>\n";
-			echo "        <th>Type</th>\n";
-			echo "        <th>Amount</th>\n";
-			echo "        <th>Id User</th>\n";
-			echo "      </tr>\n";
-			echo "    </thead>\n";
-			echo "    <tbody>\n";
-			
-			while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
-				echo "      <tr>\n";
-				echo "        <td>".$row['login']."</td>\n";
-				echo "        <td>".$row['type']."</td>\n";
-				echo "        <td>".$row['amount']."</td>\n";
-				echo "        <td>".$row['iduser']."</td>\n";
-				echo "      </tr>\n";
-			}
-			
-			echo "    </tbody>\n";
-			echo "  </table>";
-			*/
+			/* Time we need to hack the acount */
 			$executionTime = microtime(true) - $start;
 			echo "<h3 style=\"text-align:center;\">Execution Time : ".$executionTime." seconds</h3>";
 			echo "&*###*&$name&*###*&$sub";

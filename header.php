@@ -51,7 +51,7 @@
 
     <body>
     
-
+    <!-- Navigation bar with the logo of our website and display of the button logout to the right if the user is connected -->
     <nav class="navbar navbar-inverse">
         <div class="container-fluid">
             <div class="navbar-header">

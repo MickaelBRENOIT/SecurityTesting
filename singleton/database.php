@@ -9,10 +9,10 @@ class Database{
     private function __construct()
     {
 
-		$host = "localhost";  // serveur de bdd
-		$user = "root";   // nom de l'utilisateur
-		$pass = "";   // mot de passe utilisateur
-		$bddn = "mini_projet";   // nom de la bdd
+		$host = "localhost";  // host name
+		$user = "root";   // user name
+		$pass = "";   // database pass
+		$bddn = "mini_projet";   // databse name
 					
         $this->_pdo = new PDO("mysql:host=$host;dbname=$bddn", $user, $pass);//<-- connect here
         $this->_pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
